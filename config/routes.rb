@@ -8,8 +8,15 @@ AmahiDiskManager::Application.routes.draw do
   root :to =>  "welcome#index"
   scope 'tab/' do
     
+    scope 'disks/' do
+      get 'select' => 'disks#select_device'
+      get 'file_system' => 'disks#select_fs'
+      get 'formating' => 'disks#format_device'
+      get 'complete' => 'disks#done'
+    end
+    
     resources :disks
-        
-  end
+    
+ end
 
 end
