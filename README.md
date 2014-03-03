@@ -1,6 +1,6 @@
-Amahi Disk Wizad(Prototype)
+Amahi Disk Wizard(Prototype)
 ----------------------------
-Disk wizad provides a hassle free installation of newly attached storage devices to the HDA.Users are only few clicks away from getting there devices ready to work with the system.Wiki page can be found on [here] [1] .Please refer to the New disk wizard wiki page for a more details.  
+Disk wizard provides a hassle free installation of newly attached storage devices to the HDA.Users are only few clicks away from getting there devices ready to work with the system.Wiki page can be found on [here] [1] .Please refer to the New disk wizard wiki page for a more details.  
 
 Demo
 ----
