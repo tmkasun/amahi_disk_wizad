@@ -1,6 +1,6 @@
 Amahi Disk Wizard(Prototype)
 ----------------------------
-Disk wizard provides a hassle free service to mounting,partitioning,formatting of newly attached storage devices to the HDA.Users few clicks away from getting there devices ready to work with the system.Wiki page can be found on [here] [1] .Please refer to the New disk wizard wiki page for a more details.  
+Disk wizard provides a hassle free service to mounting,partitioning,formatting of newly attached storage devices to the HDA.Users are few clicks away from getting there devices ready to work with the system.Wiki page can be found on [here] [1] .Please refer to the New disk wizard wiki page for a more details.  
 
 Demo
 ----
