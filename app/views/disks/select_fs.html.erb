@@ -59,11 +59,15 @@
 
 		<div class="row">
 			<ul class="pager">
-				<li class="previous disabled">
-					<a href="#">&larr; Back</a>
+				<li class="previous">
+					<%= link_to select_path do %>
+					&larr; Back
+					<% end %>
 				</li>
 				<li class="next">
-					<a href="#">Next &rarr;</a>
+					<%= link_to formating_path do %>
+					Next &rarr;
+					<% end %>
 				</li>
 			</ul>
 
