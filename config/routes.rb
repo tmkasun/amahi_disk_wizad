@@ -11,7 +11,7 @@ AmahiDiskManager::Application.routes.draw do
     scope 'disks/' do
       get 'select' => 'disks#select_device'
       get 'file_system' => 'disks#select_fs'
-      get 'formating' => 'disks#format_device'
+      get 'manage' => 'disks#manage_disk'
       get 'complete' => 'disks#done'
     end
     

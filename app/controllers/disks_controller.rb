@@ -8,7 +8,7 @@ class DisksController < ApplicationController
 
   end
 
-  def format_device
+  def manage_disk
 
   end
 
