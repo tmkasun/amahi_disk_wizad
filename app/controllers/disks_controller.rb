@@ -3,6 +3,7 @@ class DisksController < ApplicationController
   require "disk_tools"
   def select_device
     @mounted_disks = DiskUtils::mounts
+    #render text: @mounted_disks
   end
 
   def select_fs
