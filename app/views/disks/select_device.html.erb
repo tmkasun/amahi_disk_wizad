@@ -49,12 +49,30 @@
 				<div class="row">
 					<div class="col-md-6 ">
 						<h5>Disk 1 <span class="label label-default"> 700GB</span></h5>
-						<%= pie_chart({"sda1" => 250,"sda2" => 300,"sda3" => 150}) %>
+						<%=
+						pie_chart({"sda1: #{250}GB" => 250,"sda2: #{300}GB" => 300,"sda3: #{150}GB" => 150},\
+						library: {legend: {position: 'top'}, \
+						is3D: true, \
+						pieSliceText: 'percentage', \
+						tooltip: {text: 'percentage' }, \
+						width: 400, \
+						slices: [{color: '#A44585'},{color: '#00B5F0'}] \
+						})
+						%>
 
 					</div>
 					<div class="col-md-6">
 						<h5>Disk 2 <span class="label label-default"> 320GB</span></h5>
-						<%= pie_chart({"sdb1" => 220,"sdb2" => 100}) %>
+						<%=
+						pie_chart({"sdb1: #{220}GB" => 250,"sdb2: #{100}GB" => 300},\
+						library: {legend: {position: 'top'}, \
+						is3D: true, \
+						pieSliceText: 'percentage', \
+						tooltip: {text: 'percentage' }, \
+						width: 400, \
+						slices: [{color: '#A44585'},{color: '#00B5F0'}] \
+						})
+						%>
 
 					</div>
 				</div>
