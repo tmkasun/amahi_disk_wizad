@@ -1,5 +1,7 @@
-#! /usr/local/bin/ruby
+#! /usr/local/bin/ruby #remove this line when converting to rails lib file
 
+class NewDiskUtils
+  class << self
 result = `lsblk -b -P -o MODEL,TYPE,SIZE,KNAME,MOUNTPOINT,FSTYPE`.each_line
 
 result.each do |line|
@@ -13,5 +15,11 @@ result.each do |line|
 	blkid_result = `df -T /dev/#{data_hash['KNAME']}`.lines.pop
 	puts blkid_result.gsub(/"/, '') unless blkid_result.empty?
 end	
+      def get_attached_disks
+        
+	puts "Not implimented!"
 
+      end
 
+    end
+end
