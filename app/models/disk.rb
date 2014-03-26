@@ -28,5 +28,48 @@ class Disk #< ActiveRecord::Base
 
   end
 
- 
+  private
+
+  def mount disk
+    raise "#{__method__} method not implimented !"
+
+  end
+
+  def unmount disk
+    raise "#{__method__} method not implimented !"
+
+  end
+
+  def create_partition partition_params_hash
+    raise "#{__method__} method not implimented !"
+
+  end
+
+  def format_to filesystem_type
+    raise "#{__method__} method not implimented !"
+
+  end
+
+  # class methods for retrive information about the disks attached to the HDA
+
+  def self.find disk
+    raise "#{__method__} method not implimented !"
+
+  end
+
+  def self.mounts
+    # re arrange the previous DiskUtils.mounts method
+    DiskUtils.mounts
+  end
+
+  def self.all
+    # return all the attached disk, including unmounted disks
+    DiskUtils.get_attached_disks
+  end
+
+  def self.removables
+    raise "#{__method__} method not implimented !"
+
+  end
+
 end
