@@ -13,5 +13,20 @@ class Disk #< ActiveRecord::Base
       @partitions = disk['partitions']
   end
 
+  def partitions
+    raise "#{__method__} method not implimented !"
 
+  end
+
+  def new_disk?
+    raise "#{__method__} method not implimented !"
+
+  end
+
+  def removable?
+    raise "#{__method__} method not implimented !"
+
+  end
+
+ 
 end
