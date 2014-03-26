@@ -5,6 +5,8 @@ class Fstab
   # if safe_mode true, non existing devices won't be added to fstab.
   # Adding a non existing device to fstab will raise an exception.
   # Trying to add a device without a filesystem will also rise an exception
+  # since init params are mearly static , could be able to replace them with static class variables
+  # ref. http://stackoverflow.com/questions/11523547/rails-and-class-variables
   #
   def initialize(file = '/etc/fstab', opts = {})
     @file = file
