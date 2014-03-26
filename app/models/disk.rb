@@ -1,29 +1,17 @@
-class Disk < ActiveRecord::Base
+#Since no database involvement in the model, data is fetch on the fly by parsing the result of system calls
+# inheriting ActiveRecord::Base is not necessary
+class Disk #< ActiveRecord::Base
 
-	require "disk_tools"
+  require "disk_tools"
 
-	def new_disk?
+  def initialize disk
+      @model = disk['model']
+      @uuid = disk['uuid']
+      @size = disk['size']
+      @kname = disk['kname']
+      @sectors = disk['sectors']
+      @partitions = disk['partitions']
+  end
 
-	end
-
-	def removable_disks
-
-	end
-
-	def mount_removable_disk disk
-
-	end
-
-	def unmount_removable_disk disk
-
-	end
-
-	def mounts
-
-	end
-
-	def mount_new_disk
-
-	end
 
 end
