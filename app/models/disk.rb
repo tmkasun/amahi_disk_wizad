@@ -73,7 +73,7 @@ class Disk #< ActiveRecord::Base
   end
 
   def self.new_disks
-    attached_devices =     DiskUtils.get_attached_disks
+    attached_devices = DiskUtils.get_attached_disks
     fstab = Fstab.new
 
     new_disks = []
