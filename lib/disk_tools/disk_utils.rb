@@ -13,32 +13,52 @@
 # You should have received a copy of the GNU General Public
 # License along with this program; if not, write to the Amahi
 # team at http://www.amahi.org/ under "Contact Us."
-
-
 class DiskUtils
+  class << self
+    def mounts
+      s = `df -BK`.split( /\r?\n/ )[1..-1] || ["","Incorrect data returned"]
 
-	class << self
+      mount = []
+      res = []
+      s.each do |line|
+        word = line.split(/\s+/)
+        mount.push(word)
+      end
+      mount.each do |key|
+        d = {}
+        d[:filesystem] = key[0]
+        d[:bytes] = key[1].to_i * 1024
+        d[:used] = key[2].to_i * 1024
+        d[:available] = key[3].to_i * 1024
+        d[:use_percent] = key[4]
+        d[:mount] = key[5]
+        res.push(d) unless ['tmpfs', 'devtmpfs'].include? d[:filesystem]
+      end
+      res.sort { |x,y| x[:filesystem] <=> y[:filesystem] }
+    end
 
-		def mounts
-			s = `df -BK`.split( /\r?\n/ )[1..-1] || ["","Incorrect data returned"]
+    def get_attached_disks
+      disks = []
+      lsblk_result = `lsblk -b -P -o MODEL,TYPE,SIZE,KNAME,MOUNTPOINT,FSTYPE`.each_line
 
-			mount = []
-			res = []
-			s.each do |line|
-				word = line.split(/\s+/)
-				mount.push(word)
-			end
-			mount.each do |key|
-				d = {}
-				d[:filesystem] = key[0]
-				d[:bytes] = key[1].to_i * 1024
-				d[:used] = key[2].to_i * 1024
-				d[:available] = key[3].to_i * 1024
-				d[:use_percent] = key[4]
-				d[:mount] = key[5]
-				res.push(d) unless ['tmpfs', 'devtmpfs'].include? d[:filesystem]
-			end
-			res.sort { |x,y| x[:filesystem] <=> y[:filesystem] }
-		end
-	end
+      lsblk_result.each do |line|
+        data_hash = {}
+        line_data = line.gsub(/"/, '').split " "
+
+        for data in line_data
+          key_value_pair = data.split "="
+          data_hash[key_value_pair[0]] = key_value_pair[1]
+        end
+
+        blkid_result = `df -T /dev/#{data_hash['KNAME']}`.lines.pop
+        blkid_result.gsub!(/"/, '')
+        blkid_data =  blkid_result.split(" ") unless blkid_result.empty?
+        data_hash['FSTYPE'] = blkid_data[1] unless data_hash['FSTYPE'] and blkid_data
+        disks.push data_hash if (data_hash['TYPE'] == "disk" or data_hash['TYPE'] == "part") 
+      end
+      return disks
+
+    end
+
+  end
 end
