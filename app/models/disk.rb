@@ -72,4 +72,19 @@ class Disk #< ActiveRecord::Base
 
   end
 
+  def self.new_disks
+    attached_devices =     DiskUtils.get_attached_disks
+    fstab = Fstab.new
+
+    new_disks = []
+    attached_devices.each do |device|
+      dev_path = "/dev/#{device['KNAME']}"
+      # TODO push Disk object rather than hash which contains information about a disk/partition
+      new_disks.push device unless fstab.has_device? dev_path
+    end
+    
+    # returns a array of hashes wich contains information about unmounted(not included in fstab) partitions or new storage disk(device)
+    return new_disks
+  end
+
 end
