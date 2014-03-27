@@ -24,8 +24,8 @@ class Disk #< ActiveRecord::Base
   end
 
   def removable?
-    raise "#{__method__} method not implimented !"
-
+    # assuming is_removable? method accepts Disk objects
+    DiskUtils.is_removable? self
   end
 
   private
@@ -68,7 +68,8 @@ class Disk #< ActiveRecord::Base
   end
 
   def self.removables
-    raise "#{__method__} method not implimented !"
+    # return an array of removable (Disk objects) device absolute paths
+    DiskUtils.removables
 
   end
 

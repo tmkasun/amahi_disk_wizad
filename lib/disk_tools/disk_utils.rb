@@ -61,9 +61,9 @@ class DiskUtils
     end
 
     def removables
-      command  = `ls -l /dev/disk/by-id/usb-*`
+      result  = `ls -l /dev/disk/by-id/usb-*`
       removables = []
-      command.each_line do |line|
+      result.each_line do |line|
         device_relative_path = line.split(" ")[-1]
         device_abs_path = "/dev/"+device_relative_path.split("/")[-1]
         # TODO push disk object insted of device_abs_path string
