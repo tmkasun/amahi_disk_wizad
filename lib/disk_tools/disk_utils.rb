@@ -54,10 +54,26 @@ class DiskUtils
         blkid_result.gsub!(/"/, '')
         blkid_data =  blkid_result.split(" ") unless blkid_result.empty?
         data_hash['FSTYPE'] = blkid_data[1] unless data_hash['FSTYPE'] and blkid_data
-        disks.push data_hash if (data_hash['TYPE'] == "disk" or data_hash['TYPE'] == "part") 
+        disks.push data_hash if (data_hash['TYPE'] == "disk" or data_hash['TYPE'] == "part")
       end
       return disks
 
+    end
+
+    def removables
+      command  = `ls -l /dev/disk/by-id/usb-*`
+      removables = []
+      command.each_line do |line|
+        device_relative_path = line.split(" ")[-1]
+        device_abs_path = "/dev/"+device_relative_path.split("/")[-1]
+        # TODO push disk object insted of device_abs_path string
+        removables.push device_abs_path
+      end
+      return removables
+    end
+
+    def is_removable? device
+      return removables.include? device
     end
 
   end

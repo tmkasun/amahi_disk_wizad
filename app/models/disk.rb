@@ -5,12 +5,12 @@ class Disk #< ActiveRecord::Base
   require "disk_tools"
 
   def initialize disk
-      @model = disk['model']
-      @uuid = disk['uuid']
-      @size = disk['size']
-      @kname = disk['kname']
-      @sectors = disk['sectors']
-      @partitions = disk['partitions']
+    @model = disk['model']
+    @uuid = disk['uuid']
+    @size = disk['size']
+    @kname = disk['kname']
+    @sectors = disk['sectors']
+    @partitions = disk['partitions']
   end
 
   def partitions
@@ -82,7 +82,7 @@ class Disk #< ActiveRecord::Base
       # TODO push Disk object rather than hash which contains information about a disk/partition
       new_disks.push device unless fstab.has_device? dev_path
     end
-    
+
     # returns a array of hashes wich contains information about unmounted(not included in fstab) partitions or new storage disk(device)
     return new_disks
   end
