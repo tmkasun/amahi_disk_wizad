@@ -1,9 +1,10 @@
 class DisksController < ApplicationController
   layout 'disk_wizard'
-  require "disk_tools"
+  
   def select_device
-    @mounted_disks = DiskUtils::mounts
-    #render text: @mounted_disks
+    @mounted_disks = Disk.mounts
+    @new_disks = Disk.new_disks
+    # render text: "#{@new_disks} </br></br></br></br></br> #{@mounted_disks}"
   end
 
   def select_fs

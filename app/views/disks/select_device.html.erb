@@ -7,34 +7,27 @@
 					<tr>
 						<th>Select</th>
 						<th>Model</th>
-						<th>Device</th>
-						<th>Type</th>
+						<th>Path</th>
+						<th>Size</th>
+						<th>File System</th>
 						<th>Format</th>
 					</tr>
 				</thead>
 				<tbody>
+					<% for record in @new_disks%>
 					<tr>
 						<td>
 						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" />
 						</td>
-						<td>Seagate ST1000080</td>
-						<td>/dev/sdc</td>
-						<td>Ext4</td>
+						<td><%= record['MODEL'] || "N/A"%></td>
+						<td><%= "/dev/#{record['KNAME']}"%></td>
+						<td><%= number_to_human_size record['SIZE'] %></td>						
+						<td><span class="glyphicon glyphicon-warning-sign"></span><%= ['tmpfs', 'devtmpfs'].include?(record['FSTYPE']) ? "Unknown" : record['FSTYPE']  %></td>
 						<td><label>
 							<input type="checkbox" value="">
 							Format Disk </label></td>
 					</tr>
-					<tr>
-						<td>
-						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" />
-						</td>
-						<td>WesternDigital WD1450</td>
-						<td>/dev/sdd</td>
-						<td>FAT</td>
-						<td><label>
-							<input type="checkbox" value="">
-							Format Disk </label></td>
-					</tr>
+					<% end %>
 				</tbody>
 
 			</table>
