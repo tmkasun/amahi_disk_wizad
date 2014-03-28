@@ -39,23 +39,39 @@ class DiskUtils
 
     def get_attached_disks
       disks = []
+      disk = nil
+
       lsblk_result = `lsblk -b -P -o MODEL,TYPE,SIZE,KNAME,MOUNTPOINT,FSTYPE`.each_line
 
       lsblk_result.each do |line|
         data_hash = {}
-        line_data = line.gsub(/"/, '').split " "
-
+        line_data = line.gsub!(/"(.*?)"/,'\1,').split ","
+        line_data.pop
         for data in line_data
+          data.strip!
           key_value_pair = data.split "="
           data_hash[key_value_pair[0]] = key_value_pair[1]
         end
 
         blkid_result = `df -T /dev/#{data_hash['KNAME']}`.lines.pop
         blkid_result.gsub!(/"/, '')
-        blkid_data =  blkid_result.split(" ") unless blkid_result.empty?
+        blkid_data =  blkid_result.split(" ") if not blkid_result.empty?
         data_hash['FSTYPE'] = blkid_data[1] unless data_hash['FSTYPE'] and blkid_data
-        disks.push data_hash if (data_hash['TYPE'] == "disk" or data_hash['TYPE'] == "part")
+        
+        if data_hash['TYPE'] == "disk"
+          unless disk.nil?
+            disks.push disk
+            disk = nil # cleanup the variable
+          end
+          disk = data_hash
+          disk['removable'] = is_removable? "/dev/#{disk['KNAME']}" 
+          next
+        end
+        if data_hash['TYPE'] == "part"
+          disk["partitions"].nil? ?  disk["partitions"] = [data_hash] : disk["partitions"].push(data_hash)
+        end
       end
+      disks.push disk
       return disks
 
     end
