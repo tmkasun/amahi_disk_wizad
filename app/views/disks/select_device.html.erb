@@ -41,67 +41,11 @@
 			<% if @mounted_disks.any? %>
 			<div class="panel-body">
 				<div class="row">
-					<% @mounted_disks.each_slice(2) do | first, second | %>
-					<% end %>
-					<div class="col-md-6 ">
-
-						<!-- >
-						-if @mounts.any?
-						table
-						- @mounts.each_slice(2) do | first, second |
-						tr
-						td.td_box
-						h3.center_block
-						= first[:mount]
-						| &nbsp;&nbsp;&nbsp;
-						= number_to_human_size first[:bytes]
-
-						= pie_chart({"Free: #{number_to_human_size first[:available]}" => first[:available], \
-						"Used: #{number_to_human_size first[:used]}" => first[:used]},\
-						library: {legend: {position: 'top'}, \
-						is3D: true, \
-						pieSliceText: 'percentage', \
-						tooltip: {text: 'percentage' }, \
-						width: 400, \
-						slices: [{color: '#A44585'},{color: '#00B5F0'}] \
-						})
-						- if second
-						td.td_box
-						h3.center_block
-						= second[:mount]
-						| &nbsp;&nbsp;&nbsp;
-						= number_to_human_size second[:bytes]
-
-						= pie_chart({"Free: #{number_to_human_size second[:available]}" => second[:available], \
-						"Used: #{number_to_human_size second[:used]}" => second[:used]},\
-						library: {legend: {position: 'top'}, \
-						is3D: true, \
-						pieSliceText: 'percentage', \
-						tooltip: {text: 'percentage' }, \
-						width: 400, \
-						slices: [{color: '#A44585'},{color: '#00B5F0'}] \
-
-						})
-
-						< -->
-
-						<h5>Disk 1 <span class="label label-default"> 700GB</span></h5>
-						<%=
- pie_chart({"sda1: #{250}GB" => 250,"sda2: #{300}GB" => 300,"sda3: #{150}GB" => 150},\
-						library: {legend: {position: 'top'}, \
-						is3D: true, \
-						pieSliceText: 'percentage', \
-						tooltip: {text: 'percentage' }, \
-						width: 400, \
-						slices: [{color: '#A44585'},{color: '#00B5F0'}] \
-						})
-%>
-
-					</div>
+					<% @mounted_disks.each do | disk | %>
 					<div class="col-md-6">
-						<h5>Disk 2 <span class="label label-default"> 320GB</span></h5>
+						<h5><%= disk[:filesystem] %> <span class="label label-default"> <%= number_to_human_size disk[:bytes] %></span></h5>
 						<%=
- pie_chart({"sdb1: #{220}GB" => 250,"sdb2: #{100}GB" => 300},\
+ pie_chart({"Used: #{number_to_human_size disk[:used]}" => disk[:used],"Free: #{number_to_human_size disk[:available]}" => disk[:available]},\
 						library: {legend: {position: 'top'}, \
 						is3D: true, \
 						pieSliceText: 'percentage', \
@@ -112,23 +56,23 @@
 %>
 
 					</div>
-				</div>
-			</div>
-			<% end %>
-		</div>
-
-		<div class="row">
-			<ul class="pager">
-				<li class="previous disabled">
-					<a href="#">&larr; Back</a>
-				</li>
-				<li class="next">
-					<%= link_to file_system_path do %>
-					Next &rarr;
 					<% end %>
-				</li>
-			</ul>
+				</div>
+				<% end %>
+			</div>
 
+			<div class="row">
+				<ul class="pager">
+					<li class="previous disabled">
+						<a href="#">&larr; Back</a>
+					</li>
+					<li class="next">
+						<%= link_to file_system_path do %>
+						Next &rarr;
+						<% end %>
+					</li>
+				</ul>
+
+			</div>
 		</div>
 	</div>
-</div>
