@@ -82,13 +82,15 @@ class Disk #< ActiveRecord::Base
     for device in attached_devices
       device_clone = device.clone
       device_clone['partitions'] = nil # flush partitions
+      unless device['partitions'].nil? 
       device['partitions'].each do |partition|
         dev_path = "/dev/#{partition['KNAME']}"
         unless fstab.has_device? dev_path
           device_clone["partitions"].nil? ?  device_clone["partitions"] = [partition] : device_clone["partitions"].push(partition)
         end
       end
-      new_disks.push device_clone unless device_clone['partitions'].nil?
+      end
+      new_disks.push device_clone if((not device_clone['partitions'].nil?) or device['partitions'].nil?)
     end
     # returns a array of hashes wich contains information about unmounted(not included in fstab) partitions or new storage disk(device)
     return new_disks
