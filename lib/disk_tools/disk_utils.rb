@@ -77,14 +77,13 @@ class DiskUtils
     end
 
     def removables
-      result  = `ls -l /dev/disk/by-id/usb-*`
       removables = []
-      result.each_line do |line|
-        device_relative_path = line.split(" ")[-1]
-        device_abs_path = "/dev/"+device_relative_path.split("/")[-1]
+      devices_by_id = Pathname.new "/dev/disk/by-id/"       
+      devices_by_id.each_child do |sym_link| 
         # TODO push disk object insted of device_abs_path string
-        removables.push device_abs_path
+        removables.push sym_link.realpath if sym_link.to_s =~ /\/usb-*/ 
       end
+      #return array of Filename objects which contents path to removable revices
       return removables
     end
 
