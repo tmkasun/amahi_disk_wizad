@@ -24,6 +24,8 @@ gem "chartkick" #Create beautiful Javascript charts with one line of Ruby. No mo
 
 gem 'slim', '~> 1.3.8'
 
+gem 'excon'
+gem 'yajl-ruby'
 group :test do
   gem "sqlite3"
 end
