@@ -103,9 +103,9 @@
 				<div class="row">
 					<% @mounted_disks.each do | disk | %>
 					<div class="col-md-6">
-						<h5><%= disk[:filesystem] %> <span class="label label-default"> <%= number_to_human_size disk[:bytes] %></span></h5>
+						<h5><%= disk[:path] %> <span class="label label-default"> <%= number_to_human_size disk[:bytes_total] %></span></h5>
 						<%=
- pie_chart({"Used: #{number_to_human_size disk[:used]}" => disk[:used],"Free: #{number_to_human_size disk[:available]}" => disk[:available]},\
+ pie_chart({"Used: #{number_to_human_size disk[:used]}" => (disk[:bytes_total] - disk[:bytes_free]),"Free: #{number_to_human_size disk[:available]}" => disk[:bytes_free]},\
 						library: {legend: {position: 'top'}, \
 						is3D: true, \
 						pieSliceText: 'percentage', \

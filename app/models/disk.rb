@@ -59,7 +59,8 @@ class Disk #< ActiveRecord::Base
 
   def self.mounts
     # re arrange the previous DiskUtils.mounts method
-    DiskUtils.mounts
+    # DiskUtils.mounts
+    PartitionUtils.new.info
   end
 
   def self.all
