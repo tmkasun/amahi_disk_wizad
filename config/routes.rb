@@ -9,10 +9,10 @@ AmahiDiskManager::Application.routes.draw do
   scope 'tab/' do
     
     scope 'disks/' do
-      get 'select' => 'disks#select_device'
-      get 'file_system' => 'disks#select_fs'
-      get 'manage' => 'disks#manage_disk'
-      get 'complete' => 'disks#done'
+      match 'select' => 'disks#select_device',via: [:get,:post]
+      match 'file_system' => 'disks#select_fs',via: [:get,:post]
+      match 'manage' => 'disks#manage_disk',via: [:get,:post]
+      match 'complete' => 'disks#done',via: [:get,:post]
     end
     
     resources :disks
