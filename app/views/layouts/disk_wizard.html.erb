@@ -40,16 +40,17 @@
 							</li>
 
 						</ul>
-
-						<% if params[:action] == "select_fs"%>
+						<!-- TEMP code :- params[:action] == "select_fs"	 -->
+						<% if flash[:error] %>
 						<div class="aleart_box">
 							<div class="alert alert-danger alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 									&times;
 								</button>
-								<strong>Warning!</strong> This will completely erase this new drive! Make sure the selected hard drive is the drive you'd like to erase.
+								<strong>Warning!</strong> <%= flash[:error] %>
 							</div>
 						</div>
+						<% flash[:error] = nil %>
 						<% end %>
 						<%= yield %>
 
