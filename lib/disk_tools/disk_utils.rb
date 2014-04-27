@@ -57,15 +57,15 @@ class DiskUtils
         blkid_result.gsub!(/"/, '')
         blkid_data =  blkid_result.split(" ") if not blkid_result.empty?
         data_hash['FSTYPE'] = blkid_data[1] unless data_hash['FSTYPE'] and blkid_data
-        
+
         if data_hash['TYPE'] == "disk"
           unless disk.nil?
             disks.push disk
             disk = nil # cleanup the variable
           end
           disk = data_hash
-          disk['removable'] = is_removable? "/dev/#{disk['KNAME']}" 
-          next
+          disk['removable'] = is_removable? "/dev/#{disk['KNAME']}"
+        next
         end
         if data_hash['TYPE'] == "part"
           disk["partitions"].nil? ?  disk["partitions"] = [data_hash] : disk["partitions"].push(data_hash)
@@ -76,12 +76,44 @@ class DiskUtils
 
     end
 
+    def find path
+      puts "***DEBUG path = #{path}"
+      path_info = `lsblk #{path} -b -P -o MODEL,TYPE,SIZE,KNAME,MOUNTPOINT,FSTYPE`.lines[0].gsub!(/"(.*?)"/,'\1,').split(',')
+      puts "***DEBUG path_info = #{path_info}"
+      data_hash = {}
+      path_info.pop
+      for data in path_info
+        data.strip!
+        key_value_pair = data.split "="
+        data_hash[key_value_pair[0]] = key_value_pair[1]
+      end
+      puts "***DEBUG data_hash = #{data_hash}"
+      blkid_result = `df -T #{path}`.lines.pop
+      blkid_result.gsub!(/"/, '')
+      puts "***DEBUG blkid_result = #{blkid_result}"
+      blkid_data =  blkid_result.split(" ") if not blkid_result.empty?
+      data_hash['FSTYPE'] = blkid_data[1] unless data_hash['FSTYPE'] and blkid_data
+      puts "***DEBUG data_hash = #{data_hash}"
+      if data_hash['TYPE'] == "disk"
+        disk = data_hash
+        disk['removable'] = is_removable? "/dev/#{disk['KNAME']}"
+      end
+      if data_hash['TYPE'] == "part"
+        disk = data_hash
+        disk['BYTES_FREE'] = blkid_data[4]
+        disk['BYTES_USED'] = blkid_data[3]
+      end
+      puts disk
+      return disk
+
+    end
+
     def removables
       removables = []
-      devices_by_id = Pathname.new "/dev/disk/by-id/"       
-      devices_by_id.each_child do |sym_link| 
-        # TODO push disk object insted of device_abs_path string
-        removables.push sym_link.realpath if sym_link.to_s =~ /\/usb-*/ 
+      devices_by_id = Pathname.new "/dev/disk/by-id/"
+      devices_by_id.each_child do |sym_link|
+      # TODO push disk object insted of device_abs_path string
+        removables.push sym_link.realpath if sym_link.to_s =~ /\/usb-*/
       end
       #return array of Filename objects which contents path to removable revices
       return removables
