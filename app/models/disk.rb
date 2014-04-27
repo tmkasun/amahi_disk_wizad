@@ -13,12 +13,12 @@ class Disk #< ActiveRecord::Base
     @partitions = disk['partitions']
   end
 
-  def partitions
+  def partitions device
     raise "#{__method__} method not implimented !"
 
   end
 
-  def new_disk?
+  def new_disk? disk
     raise "#{__method__} method not implimented !"
 
   end
@@ -53,8 +53,21 @@ class Disk #< ActiveRecord::Base
   # class methods for retrive information about the disks attached to the HDA
 
   def self.find disk
-    raise "#{__method__} method not implimented !"
-
+    if disk =~ /(\/\w+\/).+/
+      path = disk
+    else
+      path = "/dev/%s" % disk
+    end
+    # Assuming disk has no more than 10 partitions
+    partition = true if Integer(disk[-1]) rescue false
+    if partition
+      partition = DiskUtils.find path
+      partition["MODEL"] = DiskUtils.find(path[0..-2])["MODEL"]
+      return partition
+    else
+      disk = DiskUtils.find path
+      return disk
+    end
   end
 
   def self.mounts
