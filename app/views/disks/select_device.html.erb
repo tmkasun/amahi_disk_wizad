@@ -1,8 +1,8 @@
 <div class="panel-body">
 	<div class="row">
 		<div class="">
+			<%= "*****************#{user_selections}"%>
 			<table class="table table-hover">
-
 				<thead>
 					<tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle" style="cursor: pointer" >
 						<th class="text-center">Select</th>
@@ -16,15 +16,11 @@
 					<%= form_tag(file_system_path,{method: "POST",id:"select_device"}) %>
 					<% for record in @new_disks%>
 					<tr data-toggle="collapse" data-target= <%= "."+record['KNAME'] %> class="accordion-toggle" style = "cursor: pointer;">
-						<td>
-						<%= radio_button_tag(:device, record['KNAME']) %>
-						</td>
+						<td> <%= radio_button_tag(:device, record['KNAME'],!!(user_selections['kname'] == record['KNAME'])) %> </td>
 						<td><%= record['MODEL'] || "N/A"%></td>
 						<td><%= "/dev/#{record['KNAME']}"%></td>
 						<td><%= number_to_human_size record['SIZE'] %></td>
-						<td><label>
-							<%= check_box_tag(:format) %>
-						</label></td>
+						<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == record['KNAME']))) %> </label></td>
 					</tr>
 
 					<tr >
@@ -69,15 +65,14 @@
 									unless record['partitions'].nil?
 									for partition in record['partitions'] %>
 									<tr>
-										<td>
-										<%= radio_button_tag(:partition, partition["KNAME"],nil,'data-toggle' => "tooltip",'title' =>"Select this prtition") %>
-										</td>
+										<td> <%= radio_button_tag(:device, partition["KNAME"],!!(user_selections['kname'] == partition['KNAME']),'data-toggle' => "tooltip",'title' =>"Select this prtition") %> </td>
 										<td data-toggle="tooltip" title="Mount point"> <%= partition["MOUNTPOINT"] || "No muount point" %> </td>
 										<td data-toggle="tooltip" title="Disk name"> <%= partition["KNAME"] %> </td>
 										<td data-toggle="tooltip" title="File system type" > <%= partition["FSTYPE"] %> </td>
 										<td><span class='glyphicon glyphicon-warning-sign'></span><%= ['tmpfs', 'devtmpfs'].include?(record['FSTYPE']) ? " Unknown" : record['FSTYPE']  %></td>
 
 										<td data-toggle="tooltip" title="Total size" > <%= number_to_human_size partition["SIZE"] %> </td>
+										<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == partition['KNAME']))) %> </label></td>
 									</tr>
 									<%
 									end
