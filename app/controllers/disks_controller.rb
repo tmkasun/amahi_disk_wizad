@@ -12,11 +12,12 @@ class DisksController < ApplicationController
     device = params[:device]
     partition = params[:partition]
     unless device or partition
-      flash[:error] = "You should select a Device or a Partition to continue with the Disk-Wizard"
-      redirect_to select_path
+      redirect_to select_path, :flash => { :error => "You should select a Device or a Partition to continue with the Disk-Wizard" }
       return false
     end
-    
+    selection = partition || device
+    @selected_disk = Disk.find selection
+    # render text: selected_disk
   end
 
   def manage_disk

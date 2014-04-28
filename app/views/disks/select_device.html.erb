@@ -13,17 +13,17 @@
 					</tr>
 				</thead>
 				<tbody>
-
+					<%= form_tag(file_system_path,{method: "POST",id:"select_device"}) %>
 					<% for record in @new_disks%>
 					<tr data-toggle="collapse" data-target= <%= "."+record['KNAME'] %> class="accordion-toggle" style = "cursor: pointer;">
 						<td>
-						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" />
+						<%= radio_button_tag(:device, record['KNAME']) %>
 						</td>
 						<td><%= record['MODEL'] || "N/A"%></td>
 						<td><%= "/dev/#{record['KNAME']}"%></td>
 						<td><%= number_to_human_size record['SIZE'] %></td>
 						<td><label>
-							<input type="checkbox" value="">
+							<%= check_box_tag(:format) %>
 						</label></td>
 					</tr>
 
@@ -36,7 +36,7 @@
 									<span>40% sda1</span>
 
 								</div>
-							<div class="progress-bar progress-bar-warning" style="width: 20%">
+								<div class="progress-bar progress-bar-warning" style="width: 20%">
 									<span>20% sda2</span>
 								</div>
 								<div class="progress-bar progress-bar-danger" style="width: 20%">
@@ -70,7 +70,7 @@
 									for partition in record['partitions'] %>
 									<tr>
 										<td>
-										<input data-toggle="tooltip" title="Select this prtition" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" />
+										<%= radio_button_tag(:partition, partition["KNAME"],nil,'data-toggle' => "tooltip",'title' =>"Select this prtition") %>
 										</td>
 										<td data-toggle="tooltip" title="Mount point"> <%= partition["MOUNTPOINT"] || "No muount point" %> </td>
 										<td data-toggle="tooltip" title="Disk name"> <%= partition["KNAME"] %> </td>
@@ -127,12 +127,12 @@
 						<a href="#">&larr; Back</a>
 					</li>
 					<li class="next">
-						<%= link_to file_system_path do %>
+						<%= link_to '#', :onclick => "$('#select_device').submit()" do %>
 						Next &rarr;
 						<% end %>
 					</li>
 				</ul>
-
+				</form>
 			</div>
 		</div>
 	</div>

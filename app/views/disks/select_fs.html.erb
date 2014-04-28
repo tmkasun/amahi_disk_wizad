@@ -1,12 +1,19 @@
 <div class="panel-body">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-1">
-
-			<%= pie_chart({"" => 500}) %>
-
+			<%=
+	 			pie_chart({"Size: #{number_to_human_size @selected_disk['SIZE']}" => (@selected_disk['SIZE'])},\
+				library: {legend: {position: 'top'}, \
+				is3D: true, \
+				pieSliceText: 'percentage', \
+				tooltip: {text: 'percentage' }, \
+				width: 400, \
+				slices: [{color: '#A44585'},{color: '#00B5F0'}] \
+				})
+			%>
 			<div class="has-success has-feedback">
 				<label class="control-label" for="inputSuccess4">Drive selected</label>
-				<input type="text" class="form-control" value="Seagate ST1000080" disabled>
+				<input type="text" class="form-control" value=<%= @selected_disk["MODEL"] %> disabled>
 				<span class="glyphicon glyphicon-ok form-control-feedback"></span>
 			</div>
 
@@ -39,8 +46,6 @@
 					</li>
 
 				</ul>
-
-
 
 			</div>
 
