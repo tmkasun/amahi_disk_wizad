@@ -1,4 +1,15 @@
 <div class="panel-body">
+	<script>
+		function check() {
+			if (($('input[type=radio]:checked').size() > 0)) {
+				return true;
+			}
+			alert("Please select a file system type!");
+			return false;
+		}
+	</script>
+	<%= form_tag(manage_path,{method: "POST",id:"select_fs", onsubmit: "return check()"}) %>
+	<%= hidden_field_tag 'device', @selected_disk['KNAME'] %>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-1">
 			<%= "*****************#{@selected_disk}"%>
@@ -21,6 +32,7 @@
 
 		</div>
 		<div class="col-md-5 col-md-offset-1">
+
 			<div class="well">
 
 				<ul class="list-group">
@@ -29,20 +41,23 @@
 
 					</li>
 					<li class="list-group-item">
-						<label>
-							<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+						<label> <%= radio_button_tag(:fs_type, "ext4",!!(user_selections && user_selections['fs_type'] == "ext4")) %>
 							Ext4 </label>
 
 					</li>
 					<li class="list-group-item">
-						<label>
-							<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+						<label> <%= radio_button_tag(:fs_type, "ext3",!!(user_selections && user_selections['fs_type'] == "ext3")) %>
+							Ext3 </label>
+
+					</li>
+
+					<li class="list-group-item">
+						<label> <%= radio_button_tag(:fs_type, "ntfs",!!(user_selections && user_selections['fs_type'] == "ntfs")) %>
 							NTFS </label>
 
 					</li>
 					<li class="list-group-item">
-						<label>
-							<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+						<label> <%= radio_button_tag(:fs_type, "fat32",!!(user_selections && user_selections['fs_type'] == "fat32")) %>
 							FAT32 </label>
 
 					</li>
@@ -63,8 +78,20 @@
 					&larr; Back
 					<% end %>
 				</li>
+				<style>
+					.link_button {
+						background: none !important;
+						border: none;
+						padding: 0 !important;
+						/*border is optional*/
+						border-bottom: 1px solid #444;
+					}
+				</style>
 				<li class="next">
-					<%= link_to manage_path do %>
+					<% link_to manage_path do %>
+					Next &rarr;
+					<% end %>
+					<%= link_to '#', :onclick => "$('#select_fs').submit()" do %>
 					Next &rarr;
 					<% end %>
 				</li>
@@ -72,4 +99,5 @@
 
 		</div>
 	</div>
+	</form>
 </div>
