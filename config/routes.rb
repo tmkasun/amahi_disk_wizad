@@ -12,6 +12,7 @@ AmahiDiskManager::Application.routes.draw do
       match 'select' => 'disks#select_device',via: [:get,:post]
       match 'file_system' => 'disks#select_fs',via: [:get,:post]
       match 'manage' => 'disks#manage_disk',via: [:get,:post]
+      match 'confirmation' => 'disks#confirmation',via: [:get,:post]
       match 'complete' => 'disks#done',via: [:get,:post]
     end
     
