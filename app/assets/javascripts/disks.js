@@ -7,5 +7,7 @@ $(document).ready(function() {
 		$(this).delay(6000).fadeOut(1000, function() {
 		});
 	});
-
+	$('input.format').on('change', function() {
+		$('input.format').not(this).prop('checked', false);
+	});
 });
