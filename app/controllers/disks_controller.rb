@@ -1,5 +1,6 @@
 class DisksController < ApplicationController
   layout 'disk_wizard'
+
   def select_device
     @mounted_disks = Disk.mounts
     @new_disks = Disk.new_disks
@@ -36,8 +37,8 @@ class DisksController < ApplicationController
 
   def confirmation
     option = params[:option]
-    self.user_selections = {option: option}
-    render text: params[:option]
+    self.user_selections = {option: option} if option
+    @selected_disk = Disk.find(user_selections['kname'])
   end
 
   def done
@@ -60,6 +61,15 @@ class DisksController < ApplicationController
     end
     session[:user_selections] = current_user_selections.to_json
     puts "DEBUG ************************** session[:user_selections] #{session[:user_selections]}"
+  end
+
+  def operations_progress
+    progress = {percentage: -1, message: 'Testing message'}
+    render json: progress
+  end
+
+  def error
+    render text: "Somthing went wrong!"
   end
 
 end
