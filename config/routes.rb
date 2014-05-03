@@ -14,6 +14,8 @@ AmahiDiskManager::Application.routes.draw do
       match 'manage' => 'disks#manage_disk',via: [:get,:post]
       match 'confirmation' => 'disks#confirmation',via: [:get,:post]
       match 'complete' => 'disks#done',via: [:get,:post]
+      get 'get_progress' => 'disks#operations_progress'
+      get 'error' => 'disks#error'
     end
     
     resources :disks
