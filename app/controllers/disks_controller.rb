@@ -37,8 +37,21 @@ class DisksController < ApplicationController
 
   def confirmation
     option = params[:option]
-    self.user_selections = {option: option} if option
+    self.user_selections = {option: option}
     @selected_disk = Disk.find(user_selections['kname'])
+  end
+
+  def process_disk
+    jobs_queue = JobQueue.new(user_selections.length)
+    self.progress = 0
+    if user_selections['format']
+      format_para = {kname: user_selections['kname'],fs_type: user_selections['fs_type']}
+      format_job = {format_job: format_para}
+      jobs_queue.enqueue format_job
+    elsif user_selections['option']
+      options_para = {} #no parameters yet
+      optional_job = {optional_job:options_para }
+    end
   end
 
   def done
@@ -64,8 +77,16 @@ class DisksController < ApplicationController
   end
 
   def operations_progress
-    progress = {percentage: -1, message: 'Testing message'}
-    render json: progress
+    message = Disk.progress_message(progress)
+    render json: {percentage: progress, message: message}
+  end
+
+  def progress
+    return session[:current_progress]
+  end
+
+  def progress=(percentage)
+    session[:current_progress] = percentage
   end
 
   def error
