@@ -28,6 +28,12 @@ class Disk #< ActiveRecord::Base
     DiskUtils.is_removable? self
   end
 
+  def self.process_tasks jobs_queue
+    while (job =  jobs_queue.dequeue)
+      Disk.send(job.first[0],job.first[1])
+    end
+  end
+
   private
 
   def mount disk
