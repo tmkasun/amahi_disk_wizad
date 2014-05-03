@@ -20,7 +20,7 @@
 						<td><%= record['MODEL'] || "N/A"%></td>
 						<td><%= "/dev/#{record['KNAME']}"%></td>
 						<td><%= number_to_human_size record['SIZE'] %></td>
-						<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == record['KNAME']) rescue false)) %> </label></td>
+						<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == record['KNAME']) rescue false), class: 'format') %> </label></td>
 					</tr>
 
 					<tr >
@@ -72,7 +72,7 @@
 										<td><span class='glyphicon glyphicon-warning-sign'></span><%= ['tmpfs', 'devtmpfs'].include?(record['FSTYPE']) ? " Unknown" : record['FSTYPE']  %></td>
 
 										<td data-toggle="tooltip" title="Total size" > <%= number_to_human_size partition["SIZE"] %> </td>
-										<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == partition['KNAME']) rescue false)) %> </label></td>
+										<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == partition['KNAME']) rescue false),class: 'format') %> </label></td>
 									</tr>
 									<%
 									end
