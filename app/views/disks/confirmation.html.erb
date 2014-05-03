@@ -1,5 +1,5 @@
 <div class="panel-body">
-	<%= form_tag(complete_path,{method: "POST",id:"confirmation"}) %>
+	<%= form_tag(process_path,{method: "POST",id:"confirmation"}) %>
 	<%= hidden_field_tag 'device', user_selections['kname'] %>
 	<div class="row">
 		<% "*****************#{user_selections} \n ******** #{@selected_disk}>"%>
