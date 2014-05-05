@@ -12,7 +12,7 @@
 	<%= hidden_field_tag 'device', @selected_disk['KNAME'] %>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-1">
-			<%= "*****************#{@selected_disk}"%>
+			<% "*****************#{@selected_disk}"%>
 
 			<%=
  pie_chart({"Size: #{number_to_human_size @selected_disk['SIZE']}" => (@selected_disk['SIZE'])},\

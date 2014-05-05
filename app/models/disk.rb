@@ -28,10 +28,12 @@ class Disk #< ActiveRecord::Base
     DiskUtils.is_removable? self
   end
 
-  def self.process_tasks jobs_queue
-    while (job =  jobs_queue.dequeue)
-      Disk.send(job.first[0],job.first[1])
+  def self.process_queue jobs_queue
+    while(not jobs_queue.empty?)
+      job =  jobs_queue.dequeue
+      Disk.send(job[:name],job[:paras]) rescue false
     end
+
   end
 
   private
@@ -114,6 +116,15 @@ class Disk #< ActiveRecord::Base
     end
     # returns a array of hashes wich contains information about unmounted(not included in fstab) partitions or new storage disk(device)
     return new_disks
+  end
+
+  def self.progress_message(percent)
+    case percent
+    when 0 then "Preparing to partitioning ..."
+    when 100 then "Disk operations completed."
+    when 999 then "Fail (check /var/log/amahi-app-installer.log)."
+    else "Unknown status at #{percent}% ."
+    end
   end
 
 end

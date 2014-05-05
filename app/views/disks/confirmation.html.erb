@@ -28,9 +28,8 @@
 				<ul class="list-group">
 					<% if user_selections['format'] %>
 					<a href="#"  class="list-group-item list-group-item-info"> <span class="badge alert-danger"> <span class="glyphicon glyphicon-ok"></span> </span> Format partition/Disk </a>
-					<% end %>
 					<a href="#"  class="list-group-item"> <span class="badge alert-info"><%= user_selections['fs_type'] %></span> New Filesystem Type </a>
-
+					<% end %>
 					<% user_selections['option'].try(:each) do  |option|   %>
 					<% if option == '1' %>
 					<a href="#"  class="list-group-item"> <span class="badge"> /var/hda/files/drives/drive# </span> Disk Mount Location </a>

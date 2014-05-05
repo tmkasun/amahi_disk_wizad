@@ -1,7 +1,7 @@
 <div class="panel-body">
 	<div class="row">
 		<div class="">
-			<%= "*****************#{user_selections}"%>
+			<% "*****************#{user_selections}"%>
 			<table class="table table-hover">
 				<thead>
 					<tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle" style="cursor: pointer" >
@@ -16,7 +16,7 @@
 					<%= form_tag(file_system_path,{method: "POST",id:"select_device"}) %>
 					<% for record in @new_disks%>
 					<tr data-toggle="collapse" data-target= <%= "."+record['KNAME'] %> class="accordion-toggle" style = "cursor: pointer;">
-						<td> <%= radio_button_tag(:device, record['KNAME'],!!(user_selections['kname'] rescue false == record['KNAME'])) %> </td>
+						<td> <%= radio_button_tag(:device, record['KNAME'],!!((user_selections['kname'] == record['KNAME']) rescue false)) %> </td>
 						<td><%= record['MODEL'] || "N/A"%></td>
 						<td><%= "/dev/#{record['KNAME']}"%></td>
 						<td><%= number_to_human_size record['SIZE'] %></td>

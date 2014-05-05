@@ -45,13 +45,15 @@ class DisksController < ApplicationController
     jobs_queue = JobQueue.new(user_selections.length)
     self.progress = 0
     if user_selections['format']
-      format_para = {kname: user_selections['kname'],fs_type: user_selections['fs_type']}
-      format_job = {format_job: format_para}
-      jobs_queue.enqueue format_job
+      para = {kname: user_selections['kname'],fs_type: user_selections['fs_type']}
+      job_name = 'format_job'
+      jobs_queue.enqueue({job_name: job_name,para: para})
     elsif user_selections['option']
-      options_para = {} #no parameters yet
-      optional_job = {optional_job:options_para }
+      para = {} #no parameters yet
+      job_name = 'options_job'
+      jobs_queue.enqueue({name: job_name,paras: paras})
     end
+    Disk.process_queue jobs_queue
   end
 
   def done
