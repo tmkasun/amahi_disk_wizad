@@ -113,7 +113,7 @@ class DiskUtils
       devices_by_id = Pathname.new "/dev/disk/by-id/"
       devices_by_id.each_child do |sym_link|
       # TODO push disk object insted of device_abs_path string
-        removables.push sym_link.realpath if sym_link.to_s =~ /\/usb-*/
+        removables.push sym_link.realpath if sym_link.to_s =~ /\/usb-*/ rescue next
       end
       #return array of Filename objects which contents path to removable revices
       return removables

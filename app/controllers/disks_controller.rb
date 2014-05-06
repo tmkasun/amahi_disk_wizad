@@ -12,7 +12,7 @@ class DisksController < ApplicationController
     format = params[:format]
     self.user_selections = {kname: device,format: format} if device or format
     puts device
-    if not(device or user_selections['kname'])
+    if not(device and request.post?)
       redirect_to select_path, :flash => { :error => "You should select a Device or a Partition to continue with the Disk-Wizard" }
       return false
     elsif (not format and request.post?)
