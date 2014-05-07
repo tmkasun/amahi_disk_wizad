@@ -92,7 +92,6 @@ class Disk #< ActiveRecord::Base
   def self.removables
     # return an array of removable (Disk objects) device absolute paths
     DiskUtils.removables
-
   end
 
   def self.new_disks
@@ -102,15 +101,17 @@ class Disk #< ActiveRecord::Base
     new_disks = []
     
     for device in attached_devices
+      puts "DEBUG:******************#{device}"
       device_clone = device.clone
       device_clone['partitions'] = nil # flush partitions
       unless device['partitions'].nil? 
-      device['partitions'].each do |partition|
-        dev_path = "/dev/#{partition['KNAME']}"
-        unless fstab.has_device? dev_path
-          device_clone["partitions"].nil? ?  device_clone["partitions"] = [partition] : device_clone["partitions"].push(partition)
+        device['partitions'].each do |partition|
+          puts "DEBUG:******************#{partition}"
+          dev_path = "/dev/#{partition['KNAME']}"
+          unless fstab.has_device? dev_path
+            device_clone["partitions"].nil? ?  device_clone["partitions"] = [partition] : device_clone["partitions"].push(partition)
+          end
         end
-      end
       end
       new_disks.push device_clone if((not device_clone['partitions'].nil?) or device['partitions'].nil?)
     end
