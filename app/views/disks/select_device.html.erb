@@ -1,7 +1,8 @@
 <div class="panel-body">
 	<div class="row">
+		<% "*****************#{@new_disks}"%>
+
 		<div class="">
-			<% "*****************#{user_selections}"%>
 			<table class="table table-hover">
 				<thead>
 					<tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle" style="cursor: pointer" >
@@ -17,7 +18,12 @@
 					<% for record in @new_disks%>
 					<tr data-toggle="collapse" data-target= <%= "."+record['KNAME'] %> class="accordion-toggle" style = "cursor: pointer;">
 						<td> <%= radio_button_tag(:device, record['KNAME'],!!((user_selections['kname'] == record['KNAME']) rescue false)) %> </td>
-						<td><%= record['MODEL'] || "N/A"%></td>
+						<td><%= record['MODEL'] || "N/A"%>
+							<% if record['removable'] %>
+							&nbsp;
+							<span data-toggle="tooltip" title="Removable/External Device" style="color: red" class="glyphicon glyphicon-floppy-open"></span>
+							<% end %>
+						</td>
 						<td><%= "/dev/#{record['KNAME']}"%></td>
 						<td><%= number_to_human_size record['SIZE'] %></td>
 						<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == record['KNAME']) rescue false), class: 'format') %> </label></td>

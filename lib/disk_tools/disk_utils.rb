@@ -64,6 +64,7 @@ class DiskUtils
             disk = nil # cleanup the variable
           end
           disk = data_hash
+          puts "DEBUG:***************{/dev/#{disk['KNAME']}}"
           disk['removable'] = is_removable? "/dev/#{disk['KNAME']}"
         next
         end
@@ -96,6 +97,8 @@ class DiskUtils
       puts "***DEBUG data_hash = #{data_hash}"
       if data_hash['TYPE'] == "disk"
         disk = data_hash
+        puts "********************************"
+        puts "/dev/#{disk['KNAME']}"
         disk['removable'] = is_removable? "/dev/#{disk['KNAME']}"
       end
       if data_hash['TYPE'] == "part"
@@ -112,14 +115,16 @@ class DiskUtils
       removables = []
       devices_by_id = Pathname.new "/dev/disk/by-id/"
       devices_by_id.each_child do |sym_link|
-      # TODO push disk object insted of device_abs_path string
-        removables.push sym_link.realpath if sym_link.to_s =~ /\/usb-*/ rescue next
+        puts "DEBUG:****************sym_link #{sym_link.class}"
+        # TODO push disk object insted of device_abs_path string
+        removables.push sym_link.realpath.to_s if sym_link.to_s =~ /\/usb-*/ rescue next
       end
       #return array of Filename objects which contents path to removable revices
       return removables
     end
 
     def is_removable? device
+      puts "DEBUG: ************************* #{removables}"
       return removables.include? device
     end
 
