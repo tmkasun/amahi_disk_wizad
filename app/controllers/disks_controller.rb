@@ -43,7 +43,7 @@ class DisksController < ApplicationController
 
   def process_disk
     jobs_queue = JobQueue.new(user_selections.length)
-    Disk.progress = 0
+    # Disk.progress = 0
     puts "DEBUG:*******************user_selections = #{user_selections}"
     if user_selections['format']
       para = {kname: user_selections['kname'],fs_type: user_selections['fs_type']}
