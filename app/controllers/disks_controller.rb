@@ -43,16 +43,20 @@ class DisksController < ApplicationController
 
   def process_disk
     jobs_queue = JobQueue.new(user_selections.length)
-    self.progress = 0
+    Disk.progress = 0
+    puts "DEBUG:*******************user_selections = #{user_selections}"
     if user_selections['format']
       para = {kname: user_selections['kname'],fs_type: user_selections['fs_type']}
       job_name = 'format_job'
+      puts "DEBUG:*******************{job_name: job_name,para: para} = #{{job_name: job_name,para: para}}"
       jobs_queue.enqueue({job_name: job_name,para: para})
     elsif user_selections['option']
-      para = {} #no parameters yet
+      para = {} #Not support to execute optional jobs(i.e add new disk to greyhole storage pool )
       job_name = 'options_job'
+      puts "DEBUG:*******************{name: job_name,paras: paras} = #{{name: job_name,paras: paras}}"
       jobs_queue.enqueue({name: job_name,paras: paras})
     end
+    puts "DEBUG:*******************Start process #{jobs_queue}"
     Disk.process_queue jobs_queue
   end
 
@@ -79,16 +83,8 @@ class DisksController < ApplicationController
   end
 
   def operations_progress
-    message = Disk.progress_message(progress)
+    message = Disk.progress_message(Disk.progress)
     render json: {percentage: progress, message: message}
-  end
-
-  def progress
-    return session[:current_progress]
-  end
-
-  def progress=(percentage)
-    session[:current_progress] = percentage
   end
 
   def error
