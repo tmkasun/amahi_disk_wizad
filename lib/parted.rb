@@ -17,8 +17,16 @@
 
 class Parted
   
-  def self.partition_table disk
-    command = "parted #{disk} print"
+  def initialize disk
+    if disk =~ /(\/\w+\/).+/
+      @path = disk
+    else
+      @path = "/dev/%s" % disk
+    end
+  end
+
+  def self.partition_table
+    command = "parted #{@path} print"
     result = disk_command command
     result.each_line do |line|
       if line.strip =~ /^Error:/
@@ -33,12 +41,13 @@ class Parted
     end
   end
   
-  def format device, fs_type
-    
+  def format fs_type
+    #Creating new filesystem also format the partition with new FS type
+    return self.create_fs fs_type
   end
   
-  def create_partition_table device , type = 'msdos'
-    command = 'parted -script #{device} #{type}'
+  def create_partition_table type = 'msdos'
+    command = 'parted -script #{@path} #{type}'
     result = disk_command command
     result.each_line do |line|
       if line.strip =~ /^Error:/
@@ -48,20 +57,26 @@ class Parted
     end
   end
   
-  def create_fs device, fs_type
-    
+  def create_fs fs_type
+    command = 'mkfs.#{fs_type} #{@path}'
+    blocking = true
+    #TODO: Validation befor executing command , since none-blocking call returns nil result
+    result = disk_command(command , !blocking) # none-blocking call ,since formatting would take quit long time
+    return result
   end
   
   private
 
   def disk_command command, blocking = true
-    #forward command result(stdio and stderror) to temp file default location for temp file is /var/hda/tmp
+    #forward the result(stdio and stderror) to temp file default location for temp file is /var/hda/tmp
     if blocking # default mode is blocking call, because other commands down the line depend on the result of the previous command(i.e. format after partitioning)
       Command.new("#{command} > /tmp/disk_wizard.tmp 2>&1").run_now #.execute is kind of none-blocking call and  run_now is a blocking call
+      #TODO: Close opend file,rescue on no file, clear the file after reading to prevent dirty reads
+      result = File.open("/tmp/disk_wizard.tmp", "r").read
     else
       Command.new("#{command} > /tmp/disk_wizard.tmp 2>&1").execute
+      result = nil
     end
-    result = File.open("/tmp/disk_wizard.tmp", "r").read
     return result
   end
       
