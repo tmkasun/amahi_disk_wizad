@@ -34,16 +34,19 @@ class Disk #< ActiveRecord::Base
     disk = params_hash[:kname]
     fs_type = params_hash[:fs_type]
     parted_object = Parted.new disk
+    puts "DEBUG:********** parted_object #{parted_object}"
     partition_table = parted_object.partition_table
     # self.progress = 20
-    if partition_table
-      #TODO: check returned value for errors
-      return parted_object.format
-    else
-      #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
-      parted_object.create_partition_table #default 'msdos'
-      return parted_object.format
-    end
+    puts "DEBUG:********** partition_table =  #{partition_table}"
+    #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
+    #TODO: check returned value for errors
+    parted_object.create_partition_table unless partition_table
+    return parted_object.format fs_type
+  end
+  
+  def options_job params_hash
+    puts "DEBUG:********** options_job.params_hash #{params_hash}"
+    
   end
 
   def self.process_queue jobs_queue
