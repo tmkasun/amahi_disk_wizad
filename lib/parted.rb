@@ -18,19 +18,24 @@
 class Parted
   
   def initialize disk
+    puts "DEBUG:********** initialize Parted disk =  #{disk}"
     if disk =~ /(\/\w+\/).+/
       @path = disk
     else
       @path = "/dev/%s" % disk
     end
+    puts "DEBUG:********** initialize Parted path =  #{@path}"
   end
 
-  def self.partition_table
-    command = "parted #{@path} print"
+  def partition_table
+    puts "DEBUG:************************* partition_table = #{@path}"
+    command = "parted --script #{@path} print"
+    puts "DEBUG:************************* partition_table.command = #{command}"
     result = disk_command command
+    puts "DEBUG:************************* partition_table.result = #{result}"
     result.each_line do |line|
       if line.strip =~ /^Error:/
-        puts "DEBUG:************no disk line#{line}"
+        puts "DEBUG:************no disk line = #{line}"
         return false
       elsif line.strip =~ /^Partition Table:/
         #TODO: Need to test for all the types of partition tables
@@ -47,7 +52,8 @@ class Parted
   end
   
   def create_partition_table type = 'msdos'
-    command = 'parted -script #{@path} #{type}'
+    command = "parted --script #{@path} mklabel #{type}"
+    puts "DEBUG:************************************ create_partition_table.command = #{command}"
     result = disk_command command
     result.each_line do |line|
       if line.strip =~ /^Error:/
@@ -55,28 +61,39 @@ class Parted
         return false
       end
     end
+    return true
   end
   
   def create_fs fs_type
-    command = 'mkfs.#{fs_type} #{@path}'
+    #can't use parted 'mkfs' command because after version 2.4, the following commands were removed: check, cp, mkfs, mkpartfs, move, resize
+    command = "mkfs.#{fs_type} -q -F #{@path}" #-F parameter to ignore warning and -q for quiet execution
+    puts "DEBUG:************************************ create_fs.command = #{command}"
     blocking = true
     #TODO: Validation befor executing command , since none-blocking call returns nil result
     result = disk_command(command , !blocking) # none-blocking call ,since formatting would take quit long time
-    return result
+    puts "DEBUG:************************************ check for blank result result.blank?= #{result.blank?}"
+    puts "DEBUG:************************************ print result = #{result}"
+    return true if result.blank? # if everything went well result should be blank (in mkfs.* -q quite mode)
+    return false
   end
   
   private
 
   def disk_command command, blocking = true
     #forward the result(stdio and stderror) to temp file default location for temp file is /var/hda/tmp
+    puts "DEBUG:****************** disk_command.command = #{command} blocking = #{blocking}"
     if blocking # default mode is blocking call, because other commands down the line depend on the result of the previous command(i.e. format after partitioning)
+      puts "DEBUG:****************** disk_command.full command => #{command} > /tmp/disk_wizard.tmp 2>&1"
       Command.new("#{command} > /tmp/disk_wizard.tmp 2>&1").run_now #.execute is kind of none-blocking call and  run_now is a blocking call
       #TODO: Close opend file,rescue on no file, clear the file after reading to prevent dirty reads
       result = File.open("/tmp/disk_wizard.tmp", "r").read
+      puts "DEBUG:************************************* result = #{result}"
     else
+      puts "DEBUG:####### checkup disk_command.else "
       Command.new("#{command} > /tmp/disk_wizard.tmp 2>&1").execute
       result = nil
     end
+    puts "DEBUG:************************************* result = #{result}"
     return result
   end
       
