@@ -28,13 +28,80 @@ class Disk #< ActiveRecord::Base
     DiskUtils.is_removable? self
   end
 
+  def self.format_job params_hash
+    puts "DEBUG:********** format_job params_hash #{params_hash}"
+    # self.progress = 10
+    disk = params_hash[:kname]
+    fs_type = params_hash[:fs_type]
+    parted_object = Parted.new disk
+    partition_table = parted_object.partition_table
+    # self.progress = 20
+    if partition_table
+      #TODO: check returned value for errors
+      return parted_object.format
+    else
+      #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
+      parted_object.create_partition_table #default 'msdos'
+      return parted_object.format
+    end
+  end
+
   def self.process_queue jobs_queue
     while(not jobs_queue.empty?)
       job =  jobs_queue.dequeue
-      Disk.send(job[:name],job[:paras]) rescue false
+      puts "DEBUG: ******************process_queue #{job[:job_name]} job[:para] #{job[:para]}"
+      Disk.send(job[:job_name],job[:para]) rescue false
     end
-
   end
+
+  def self.progress
+    current_progress = Setting.find_by_kind_and_name('disk_wizard', 'operation_progress')
+  end
+
+  def self.progress_message(percent)
+    case percent
+    when 0 then "Preparing to partitioning ..."
+    when 10 then "Looking for partition table ..."
+    when 100 then "Disk operations completed."
+    when 999 then "Fail (check /var/log/amahi-app-installer.log)."
+    else "Unknown status at #{percent}% ."
+    end
+  end
+
+  def self.progress=(percentage)
+    #TODO: if user runs disk_wizard in two browsers concurrently,identifier should set to unique kname of the disk
+    current_progress = Setting.find_or_create_by('disk_wizard', 'operation_progress', percentage)
+    if percentage.nil?
+      current_progress && current_progress.destroy
+      return nil
+    end
+    current_progress.update_attribute(:value, percentage.to_s)
+    percentage
+  end
+
+  #TODO: Impliment status reporting via AJAX
+=begin
+  def install_status
+    App.installation_status(self.identifier)
+  end
+
+  def self.installation_status(identifier)
+    status = Setting.find_by_kind_and_name(identifier, 'install_status')
+    return 0 unless status
+    status.value.to_i
+  end
+
+  def install_status=(value)
+    # create it dynamically if it does not exist
+    status = Setting.find_or_create_by(self.identifier, 'install_status', value)
+    if value.nil?
+      status && status.destroy
+      return nil
+    end
+    status.update_attribute(:value, value.to_s)
+    value
+  end
+=end
 
   private
 
@@ -117,15 +184,6 @@ class Disk #< ActiveRecord::Base
     end
     # returns a array of hashes wich contains information about unmounted(not included in fstab) partitions or new storage disk(device)
     return new_disks
-  end
-
-  def self.progress_message(percent)
-    case percent
-    when 0 then "Preparing to partitioning ..."
-    when 100 then "Disk operations completed."
-    when 999 then "Fail (check /var/log/amahi-app-installer.log)."
-    else "Unknown status at #{percent}% ."
-    end
   end
 
 end
