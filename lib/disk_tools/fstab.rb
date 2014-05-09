@@ -75,10 +75,14 @@ class Fstab
     end
 
     backup_fstab
-    File.open @file, 'w' do |f|
-      f.puts @contents
-      f.puts format_entry(dev, opts)
-    end
+    puts "DEBUG:********** @contents = #{@contents}"
+    puts "DEBUG:********** dev = #{dev} , opts = #{opts}"
+    puts "DEBUG:********** format_entry(dev, opts) = #{format_entry(dev, opts)}"
+    #TODO: Append format_entry(dev, opts) to "/etc/fstab" by using "Command" library not using File.open
+    # File.open @file, 'w' do |f|
+      # f.puts @contents
+      # f.puts format_entry(dev, opts)
+    # end
     reload
   end
 
@@ -286,9 +290,11 @@ class Fstab
 
   def backup_fstab
     return unless @backup
-    File.open("#{@backup_dir}/fstab.#{Time.now.to_f}.bak", 'w') do |f|
-      f.puts @contents
-    end
+    # Command.new("echo #{@contents} > #{@backup_dir}/fstab.#{Time.now.to_f}.bak")
+    #TODO: Replace Rails method with "Command" like above
+    # File.open("#{@backup_dir}/fstab.#{Time.now.to_f}.bak", 'w') do |f|
+      # f.puts @contents
+    # end
   end
 
 end

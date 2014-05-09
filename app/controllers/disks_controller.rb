@@ -50,11 +50,13 @@ class DisksController < ApplicationController
       job_name = 'format_job'
       puts "DEBUG:*******************{job_name: job_name,para: para} = #{{job_name: job_name,para: para}}"
       jobs_queue.enqueue({job_name: job_name,para: para})
-    elsif user_selections['option']
-      para = {} #Not support to execute optional jobs(i.e add new disk to greyhole storage pool )
+    end
+
+    if user_selections["option"]
+      para = {kname: user_selections['kname']}
       job_name = 'options_job'
-      puts "DEBUG:*******************{name: job_name,paras: paras} = #{{name: job_name,paras: paras}}"
-      jobs_queue.enqueue({name: job_name,paras: paras})
+      puts "DEBUG:*******************para = {kname: user_selections['kname']} = #{{job_name: job_name,para: para}}"
+      jobs_queue.enqueue({job_name: job_name,para: para})
     end
     puts "DEBUG:*******************Start process #{jobs_queue}"
     Disk.process_queue jobs_queue

@@ -45,8 +45,13 @@ class Disk #< ActiveRecord::Base
   end
   
   def options_job params_hash
+    kname = params_hash[:kname]
+    mount_point = "/media/#{kname}" # in production this path is /var/hda/files/drives/drive#
     puts "DEBUG:********** options_job.params_hash #{params_hash}"
-    
+    Command.new("mkdir #{mount_point}").run_now
+    fstab_object = Fstab.new
+    # fstab_object.add_fs('/dev/sde','/media/sde','auto','auto,rw,exec',0,0)
+    Command.new("mount -a").run_now
   end
 
   def self.process_queue jobs_queue
