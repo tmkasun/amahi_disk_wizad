@@ -13,7 +13,7 @@ class Fstab
     @contents = File.read file
     @backup = opts[:backup].nil? ? true : opts[:backup]
     @safe_mode = opts[:safe_mode].nil? ? true : opts[:safe_mode]
-    @backup_dir = opts[:backup_dir] || '/etc/'
+    @backup_dir = opts[:backup_dir] || '/etc'
   end
 
   def entries
@@ -79,6 +79,8 @@ class Fstab
     puts "DEBUG:********** dev = #{dev} , opts = #{opts}"
     puts "DEBUG:********** format_entry(dev, opts) = #{format_entry(dev, opts)}"
     #TODO: Append format_entry(dev, opts) to "/etc/fstab" by using "Command" library not using File.open
+    Command.new("echo '#{@contents}' > /etc/fstab ").run_now
+    Command.new("echo '#{format_entry(dev, opts)}' >> /etc/fstab ").run_now
     # File.open @file, 'w' do |f|
       # f.puts @contents
       # f.puts format_entry(dev, opts)
@@ -290,7 +292,8 @@ class Fstab
 
   def backup_fstab
     return unless @backup
-    # Command.new("echo #{@contents} > #{@backup_dir}/fstab.#{Time.now.to_f}.bak")
+    puts "DEBUG:********************command = echo #{@contents} > #{@backup_dir}/fstab.#{Time.now.to_f}.bak"
+    Command.new("echo #{@contents} > #{@backup_dir}/fstab.#{Time.now.to_f}.bak").run_now
     #TODO: Replace Rails method with "Command" like above
     # File.open("#{@backup_dir}/fstab.#{Time.now.to_f}.bak", 'w') do |f|
       # f.puts @contents

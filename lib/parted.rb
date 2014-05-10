@@ -66,6 +66,7 @@ class Parted
   
   def create_fs fs_type
     #can't use parted 'mkfs' command because after version 2.4, the following commands were removed: check, cp, mkfs, mkpartfs, move, resize
+    fs_type = "vfat" if fs_type == "fat32"
     command = "mkfs.#{fs_type} -q -F #{@path}" #-F parameter to ignore warning and -q for quiet execution
     puts "DEBUG:************************************ create_fs.command = #{command}"
     blocking = true

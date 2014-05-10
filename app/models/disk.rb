@@ -30,48 +30,66 @@ class Disk #< ActiveRecord::Base
 
   def self.format_job params_hash
     puts "DEBUG:********** format_job params_hash #{params_hash}"
-    # self.progress = 10
+    self.progress = 10
     disk = params_hash[:kname]
+    Command.new("umount /dev/#{disk}").run_now
     fs_type = params_hash[:fs_type]
     parted_object = Parted.new disk
     puts "DEBUG:********** parted_object #{parted_object}"
     partition_table = parted_object.partition_table
-    # self.progress = 20
+    self.progress = 20
     puts "DEBUG:********** partition_table =  #{partition_table}"
     #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
     #TODO: check returned value for errors
+    # root@ubuntu:~# parted --script /dev/sdb mklabel msdos
+    # root@ubuntu:~# parted -s -a optimal /dev/sdb mkpart primary 1 -- -1
+    # root@ubuntu:~# mkfs.ext4 /dev/sdb1
+
     parted_object.create_partition_table unless partition_table
+    self.progress = 40
     return parted_object.format fs_type
   end
   
-  def options_job params_hash
+  def self.mount_job params_hash
+    self.progress = 60
     kname = params_hash[:kname]
     mount_point = "/media/#{kname}" # in production this path is /var/hda/files/drives/drive#
     puts "DEBUG:********** options_job.params_hash #{params_hash}"
     Command.new("mkdir #{mount_point}").run_now
+    puts "DEBUG:********** Directory created #{mount_point}"
     fstab_object = Fstab.new
-    # fstab_object.add_fs('/dev/sde','/media/sde','auto','auto,rw,exec',0,0)
+    puts "DEBUG:********** fstab_object created #{fstab_object}"
+    puts "DEBUG:********** fstab_object.add_fs path = /dev/#{kname}"
+    fstab_object.add_fs("/dev/#{kname}",mount_point,'auto','auto,rw,exec',0,0)
     Command.new("mount -a").run_now
+    self.progress = 80
   end
 
   def self.process_queue jobs_queue
     while(not jobs_queue.empty?)
       job =  jobs_queue.dequeue
       puts "DEBUG: ******************process_queue #{job[:job_name]} job[:para] #{job[:para]}"
-      Disk.send(job[:job_name],job[:para]) rescue false
+      Disk.send(job[:job_name],job[:para]) rescue puts "DEBUG:******** fails to send job" and return false
     end
+    return true
   end
 
   def self.progress
     current_progress = Setting.find_by_kind_and_name('disk_wizard', 'operation_progress')
+    return 0 unless current_progress
+    current_progress.value.to_i
   end
 
   def self.progress_message(percent)
     case percent
     when 0 then "Preparing to partitioning ..."
     when 10 then "Looking for partition table ..."
+    when 20 then "Partition table created ..."
+    when 40 then "Formating the partition ..."
+    when 60 then "Creating mount point ..."
+    when 80 then "Mounting the partition ..."
     when 100 then "Disk operations completed."
-    when 999 then "Fail (check /var/log/amahi-app-installer.log)."
+    when -1 then "Fail (check /var/log/amahi-app-installer.log)."
     else "Unknown status at #{percent}% ."
     end
   end

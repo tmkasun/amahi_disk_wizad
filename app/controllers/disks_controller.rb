@@ -43,7 +43,7 @@ class DisksController < ApplicationController
 
   def process_disk
     jobs_queue = JobQueue.new(user_selections.length)
-    # Disk.progress = 0
+    Disk.progress = 0
     puts "DEBUG:*******************user_selections = #{user_selections}"
     if user_selections['format']
       para = {kname: user_selections['kname'],fs_type: user_selections['fs_type']}
@@ -54,12 +54,21 @@ class DisksController < ApplicationController
 
     if user_selections["option"]
       para = {kname: user_selections['kname']}
-      job_name = 'options_job'
+      job_name = 'mount_job'
       puts "DEBUG:*******************para = {kname: user_selections['kname']} = #{{job_name: job_name,para: para}}"
       jobs_queue.enqueue({job_name: job_name,para: para})
     end
     puts "DEBUG:*******************Start process #{jobs_queue}"
-    Disk.process_queue jobs_queue
+    success = Disk.process_queue jobs_queue
+    if success
+      Disk.progress = 100
+    else
+      Disk.progress = -1
+    end
+  end
+
+  def progress
+
   end
 
   def done
@@ -86,7 +95,7 @@ class DisksController < ApplicationController
 
   def operations_progress
     message = Disk.progress_message(Disk.progress)
-    render json: {percentage: progress, message: message}
+    render json: {percentage: Disk.progress, message: message}
   end
 
   def error
