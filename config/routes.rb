@@ -16,7 +16,8 @@ AmahiDiskManager::Application.routes.draw do
       get 'complete' => 'disks#done'
       get 'get_progress' => 'disks#operations_progress'
       get 'error' => 'disks#error'
-      match 'process' => 'disks#process_disk', via: [:get,:post]
+      post 'process' => 'disks#progress'
+      post 'ajax_process' => 'disks#process_disk'
     end
     
     resources :disks
