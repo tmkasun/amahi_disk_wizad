@@ -19,11 +19,8 @@
 					<tr data-toggle="collapse" data-target= <%= "."+record['KNAME'] %> class="accordion-toggle" style = "cursor: pointer;">
 						<td> <%= radio_button_tag(:device, record['KNAME'],!!((user_selections['kname'] == record['KNAME']) rescue false)) %> </td>
 						<td><%= record['MODEL'] || "N/A"%>
-							<% if record['removable'] %>
-							&nbsp;
-							<span data-toggle="tooltip" title="Removable/External Device" style="color: red" class="glyphicon glyphicon-floppy-open"></span>
-							<% end %>
-						</td>
+						<% if record['removable'] %>
+						&nbsp; <span data-toggle="tooltip" title="Removable/External Device" style="color: red" class="glyphicon glyphicon-floppy-open"></span> <% end %> </td>
 						<td><%= "/dev/#{record['KNAME']}"%></td>
 						<td><%= number_to_human_size record['SIZE'] %></td>
 						<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == record['KNAME']) rescue false), class: 'format') %> </label></td>
@@ -51,12 +48,13 @@
 						</div></td>
 					</tr>
 					<tr >
-						<td colspan="1">
+						<td colspan="1" style="border: none">
 						<div class="accordian-body collapse <%= record['KNAME'] %>" >
-							<span class="glyphicon glyphicon-hdd btn-lg"></span>
-							<kbd><%= record['MODEL'] %></kbd>
+							<button type="button" class="btn btn-default btn-lg">
+								<span class="glyphicon glyphicon-hdd btn-lg"></span><%= record['MODEL'] %>
+							</button>
 						</div></td>
-						<td style="border-top: none;" colspan="5" class="hiddenRow">
+						<td style="border: none;" colspan="5" class="hiddenRow">
 						<div class="accordian-body collapse <%= record['KNAME'] %>" >
 
 							<table class="table table-bordered table-hover">
@@ -72,7 +70,7 @@
 									for partition in record['partitions'] %>
 									<tr>
 										<td> <%= radio_button_tag(:device, partition["KNAME"],!!(user_selections['kname'] == partition['KNAME'] rescue false),'data-toggle' => "tooltip",'title' =>"Select this prtition") %> </td>
-										<td data-toggle="tooltip" title="Mount point"> <%= partition["MOUNTPOINT"] || "No muount point" %> </td>
+										<td data-toggle="tooltip" title="Mount point"> <%= partition["MOUNTPOINT"] || "No mount point" %> </td>
 										<td data-toggle="tooltip" title="Disk name"> <%= partition["KNAME"] %> </td>
 										<td data-toggle="tooltip" title="File system type" > <%= partition["FSTYPE"] %> </td>
 										<td><span class='glyphicon glyphicon-warning-sign'></span><%= ['tmpfs', 'devtmpfs'].include?(record['FSTYPE']) ? " Unknown" : record['FSTYPE']  %></td>
