@@ -20,10 +20,11 @@ class Parted
   def initialize disk
     puts "DEBUG:********** initialize Parted disk =  #{disk}"
     if disk =~ /(\/\w+\/).+/
-      @path = disk
+      @kname = disk.split('/')[-1]
     else
-      @path = "/dev/%s" % disk
+      @kname = disk
     end
+    @path = Disk.path @kname
     puts "DEBUG:********** initialize Parted path =  #{@path}"
   end
 
@@ -65,6 +66,15 @@ class Parted
   end
   
   def create_fs fs_type
+    partition_table = self.partition_table
+    unless partition_table
+      self.create_partition_table
+      command = "parted -s -a optimal #{@path} mkpart primary 1 -- -1"
+      disk_command(command)
+      @kname = @kname + 1.to_s
+      @path = "/dev/#{@kname}"
+    end
+
     #can't use parted 'mkfs' command because after version 2.4, the following commands were removed: check, cp, mkfs, mkpartfs, move, resize
     fs_type = "vfat" if fs_type == "fat32"
     command = "mkfs.#{fs_type} -q -F #{@path}" #-F parameter to ignore warning and -q for quiet execution
@@ -74,7 +84,7 @@ class Parted
     result = disk_command(command , !blocking) # none-blocking call ,since formatting would take quit long time
     puts "DEBUG:************************************ check for blank result result.blank?= #{result.blank?}"
     puts "DEBUG:************************************ print result = #{result}"
-    return true if result.blank? # if everything went well result should be blank (in mkfs.* -q quite mode)
+    return @kname if result.blank? # if everything went well result should be blank (in mkfs.* -q quite mode)
     return false
   end
   
