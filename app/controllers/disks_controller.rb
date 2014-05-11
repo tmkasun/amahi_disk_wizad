@@ -42,24 +42,26 @@ class DisksController < ApplicationController
   end
 
   def process_disk
+    kname = user_selections['kname']
+    disk = Disk.find kname
+
     jobs_queue = JobQueue.new(user_selections.length)
     Disk.progress = 0
-    puts "DEBUG:*******************user_selections = #{user_selections}"
+
     if user_selections['format']
-      para = {kname: user_selections['kname'],fs_type: user_selections['fs_type']}
-      job_name = 'format_job'
-      puts "DEBUG:*******************{job_name: job_name,para: para} = #{{job_name: job_name,para: para}}"
-      jobs_queue.enqueue({job_name: job_name,para: para})
+      para = {kname: kname,fs_type: user_selections['fs_type']}
+      job_name = :format_job
+      puts "DEBUG:******** {job_name: job_name,para: para} = #{{job_name: job_name,para: para}}"
+      jobs_queue.enqueue({job_name: job_name,job_para: para})
     end
 
     if user_selections["option"]
-      para = {kname: user_selections['kname']}
-      job_name = 'mount_job'
-      puts "DEBUG:*******************para = {kname: user_selections['kname']} = #{{job_name: job_name,para: para}}"
-      jobs_queue.enqueue({job_name: job_name,para: para})
+      para = {kname: kname}
+      job_name = :mount_job
+      puts "DEBUG:******** {job_name: job_name,para: para} = #{{job_name: job_name,para: para}}"
+      jobs_queue.enqueue({job_name: job_name,job_para: para})
     end
-    puts "DEBUG:*******************Start process #{jobs_queue}"
-    success = Disk.process_queue jobs_queue
+    success = disk.process_queue jobs_queue
     if success
       Disk.progress = 100
     else
