@@ -97,7 +97,6 @@ class DiskUtils
       puts "***DEBUG data_hash = #{data_hash}"
       if data_hash['TYPE'] == "disk"
         disk = data_hash
-        puts "********************************"
         puts "/dev/#{disk['KNAME']}"
         disk['removable'] = is_removable? "/dev/#{disk['KNAME']}"
       end
@@ -115,7 +114,7 @@ class DiskUtils
       removables = []
       devices_by_id = Pathname.new "/dev/disk/by-id/"
       devices_by_id.each_child do |sym_link|
-        puts "DEBUG:****************sym_link #{sym_link.class}"
+        # puts "DEBUG:****************sym_link #{sym_link.class}"
         # TODO push disk object insted of device_abs_path string
         removables.push sym_link.realpath.to_s if sym_link.to_s =~ /\/usb-*/ rescue next
       end
