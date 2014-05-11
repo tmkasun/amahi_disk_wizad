@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<%=
- pie_chart({"Size: #{number_to_human_size @selected_disk['SIZE']}" => (@selected_disk['SIZE'])},\
+ pie_chart({"Size: #{number_to_human_size @selected_disk.size}" => (@selected_disk.size)},\
 				library: {legend: {position: 'bottom'}, \
 				is3D: true, \
 				pieSliceText: 'percentage', \
@@ -18,7 +18,7 @@
 %>
 				<div class="col-md-6 col-md-offset-4">
 					<div class="alert alert-info">
-						<%= @selected_disk['MODEL'] %>
+						<%= @selected_disk.model %>
 					</div>
 				</div>
 
