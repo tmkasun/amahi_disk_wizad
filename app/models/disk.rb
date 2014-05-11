@@ -4,13 +4,25 @@ class Disk #< ActiveRecord::Base
 
   require "disk_tools"
 
+  attr_reader  :path, :removable,:model, :type, :size, :free_bytes, :used_bytes,:fs_type, :mount_point
+  attr_accessor :kname, :partitions
+
   def initialize disk
-    @model = disk['model']
-    @uuid = disk['uuid']
-    @size = disk['size']
-    @kname = disk['kname']
-    @sectors = disk['sectors']
-    @partitions = disk['partitions']
+    @model = disk[:model]
+    @kname = disk[:kname]
+    #TODO: Composite object Partition , i.e.: Disk has_many Partitions
+    @partitions = disk[:partitions]
+    @removable = self.removable?
+
+    @type = disk[:type]
+    @fs_type = disk[:fs_type]
+
+    @mount_point = disk[:mount_point]
+    @path = Disk.path disk[:kname]
+
+    @size = disk[:size]
+    @free_bytes = disk[:free_bytes]
+    @used_bytes = disk[:used_bytes]
   end
 
   def partitions device
@@ -24,63 +36,16 @@ class Disk #< ActiveRecord::Base
   end
 
   def removable?
-    # assuming is_removable? method accepts Disk objects
-    DiskUtils.is_removable? self
+    DiskUtils.is_removable? @path
   end
 
-  def self.format_job params_hash
-    puts "DEBUG:********** format_job params_hash #{params_hash}"
-    self.progress = 10
-    disk = params_hash[:kname]
-    Command.new("umount /dev/#{disk}").run_now
-    fs_type = params_hash[:fs_type]
-    parted_object = Parted.new disk
-    puts "DEBUG:********** parted_object #{parted_object}"
-    partition_table = parted_object.partition_table
-    self.progress = 20
-    puts "DEBUG:********** partition_table =  #{partition_table}"
-    #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
-    #TODO: check returned value for errors
-    # root@ubuntu:~# parted --script /dev/sdb mklabel msdos
-    # root@ubuntu:~# parted -s -a optimal /dev/sdb mkpart primary 1 -- -1
-    # root@ubuntu:~# mkfs.ext4 /dev/sdb1
-
-    parted_object.create_partition_table unless partition_table
-    self.progress = 40
-    return parted_object.format fs_type
-  end
-  
-  def self.mount_job params_hash
-    self.progress = 60
-    kname = params_hash[:kname]
-    mount_point = "/media/#{kname}" # in production this path is /var/hda/files/drives/drive#
-    puts "DEBUG:********** options_job.params_hash #{params_hash}"
-    Command.new("mkdir #{mount_point}").run_now
-    puts "DEBUG:********** Directory created #{mount_point}"
-    fstab_object = Fstab.new
-    puts "DEBUG:********** fstab_object created #{fstab_object}"
-    puts "DEBUG:********** fstab_object.add_fs path = /dev/#{kname}"
-    fstab_object.add_fs("/dev/#{kname}",mount_point,'auto','auto,rw,exec',0,0)
-    Command.new("mount -a").run_now
-    self.progress = 80
-  end
-
-  def self.process_queue jobs_queue
-    while(not jobs_queue.empty?)
-      job =  jobs_queue.dequeue
-      puts "DEBUG: ******************process_queue #{job[:job_name]} job[:para] #{job[:para]}"
-      Disk.send(job[:job_name],job[:para]) rescue puts "DEBUG:******** fails to send job" and return false
-    end
-    return true
-  end
-
-  def self.progress
+  def Disk.progress
     current_progress = Setting.find_by_kind_and_name('disk_wizard', 'operation_progress')
     return 0 unless current_progress
     current_progress.value.to_i
   end
 
-  def self.progress_message(percent)
+  def Disk.progress_message(percent)
     case percent
     when 0 then "Preparing to partitioning ..."
     when 10 then "Looking for partition table ..."
@@ -93,43 +58,6 @@ class Disk #< ActiveRecord::Base
     else "Unknown status at #{percent}% ."
     end
   end
-
-  def self.progress=(percentage)
-    #TODO: if user runs disk_wizard in two browsers concurrently,identifier should set to unique kname of the disk
-    current_progress = Setting.find_or_create_by('disk_wizard', 'operation_progress', percentage)
-    if percentage.nil?
-      current_progress && current_progress.destroy
-      return nil
-    end
-    current_progress.update_attribute(:value, percentage.to_s)
-    percentage
-  end
-
-  #TODO: Impliment status reporting via AJAX
-=begin
-  def install_status
-    App.installation_status(self.identifier)
-  end
-
-  def self.installation_status(identifier)
-    status = Setting.find_by_kind_and_name(identifier, 'install_status')
-    return 0 unless status
-    status.value.to_i
-  end
-
-  def install_status=(value)
-    # create it dynamically if it does not exist
-    status = Setting.find_or_create_by(self.identifier, 'install_status', value)
-    if value.nil?
-      status && status.destroy
-      return nil
-    end
-    status.update_attribute(:value, value.to_s)
-    value
-  end
-=end
-
-  private
 
   def mount disk
     raise "#{__method__} method not implimented !"
@@ -153,21 +81,33 @@ class Disk #< ActiveRecord::Base
 
   # class methods for retrive information about the disks attached to the HDA
 
-  def self.find disk
-    if disk =~ /(\/\w+\/).+/
-      path = disk
-    else
-      path = "/dev/%s" % disk
+  def Disk.progress=(percentage)
+    #TODO: if user runs disk_wizard in two browsers concurrently,identifier should set to unique kname of the disk
+    current_progress = Setting.find_or_create_by('disk_wizard', 'operation_progress', percentage)
+    if percentage.nil?
+      current_progress && current_progress.destroy
+      return nil
     end
-    # Assuming disk has no more than 10 partitions
+    current_progress.update_attribute(:value, percentage.to_s)
+    percentage
+  end
+
+  def self.find disk
+    path = Disk.path disk
+    puts "DEBUG:*************** path = #{path}"
     partition = true if Integer(disk[-1]) rescue false
     if partition
       partition = DiskUtils.find path
       partition["MODEL"] = DiskUtils.find(path[0..-2])["MODEL"]
-      return partition
+      puts "DEBUG:*************** partition = #{partition}"
+      return Disk.new({model: partition["MODEL"],type: partition["TYPE"], size: partition["SIZE"],\
+        kname: partition["KNAME"], mount_point: partition["MOUNTPOINT"], fs_type: partition["FSTYPE"],\
+        free_bytes: partition["BYTES_FREE"], used_bytes: partition["BYTES_USED"]})
     else
       disk = DiskUtils.find path
-      return disk
+      puts "DEBUG:**************** disk = #{disk}"
+      return Disk.new({model: disk["MODEL"],type: disk["TYPE"], size: disk["SIZE"],\
+        kname: disk["KNAME"], mount_point: disk["MOUNTPOINT"], fs_type: disk["FSTYPE"]})
     end
   end
 
@@ -185,6 +125,15 @@ class Disk #< ActiveRecord::Base
   def self.removables
     # return an array of removable (Disk objects) device absolute paths
     DiskUtils.removables
+  end
+
+  def self.path disk
+    if disk =~ /(\/\w+\/).+/
+      path = disk
+    else
+      path = "/dev/%s" % disk
+    end
+    path
   end
 
   def self.new_disks
@@ -212,4 +161,45 @@ class Disk #< ActiveRecord::Base
     return new_disks
   end
 
+  def format_job params_hash
+    puts "DEBUG:********** format_job params_hash #{params_hash}"
+    Disk.progress = 10
+    puts "DEBUG:*********** umount @path umount #{@path}"
+    Command.new("umount #{@path}").run_now
+    fs_type = params_hash[:fs_type]
+    parted_object = Parted.new @kname
+    #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
+    #TODO: check returned value for errors
+    Disk.progress = 40
+    @kname = parted_object.format fs_type
+  end
+
+  def mount_job params_hash
+    Disk.progress = 60
+    kname = @kname
+    mount_point = "/media/#{kname}" # in production this path is /var/hda/files/drives/drive#
+    puts "DEBUG:********** options_job.params_hash #{params_hash}"
+    Command.new("mkdir #{mount_point}").run_now
+    puts "DEBUG:********** Directory created #{mount_point}"
+    fstab_object = Fstab.new
+    puts "DEBUG:********** fstab_object created #{fstab_object}"
+    puts "DEBUG:********** fstab_object.add_fs path = /dev/#{kname}"
+    fstab_object.add_fs("/dev/#{kname}",mount_point,'auto','auto,rw,exec',0,0)
+    Command.new("mount -a").run_now
+    Disk.progress = 80
+  end
+
+  def process_queue jobs_queue
+    while(not jobs_queue.empty?)
+      job =  jobs_queue.dequeue
+      puts "DEBUG:******* job[:job_name] = #{job[:job_name]} job[:job_para] =  $ #{job[:job_para]}"
+      begin
+        self.send(job[:job_name],job[:job_para])
+      rescue => exception
+        puts "DEBUG:*** JOB FAILS #{exception.inspect}"
+        return false
+      end
+    end
+    return true
+  end
 end
