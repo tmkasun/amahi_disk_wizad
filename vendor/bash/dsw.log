@@ -1,0 +1,7 @@
+
+2014-05-14 01:38:20: Start executing mkdir with arguments = -zz
+2014-05-14 01:38:46: Start executing mkdir with arguments = -zz
+2014-05-14 01:39:04: Start executing mkdir with arguments = -zz
+2014-05-14 01:39:58: An insufficient number of arguments(arguments)
+2014-05-14 01:40:17: Start executing lsblk with arguments = -f
+2014-05-14 01:40:21: Start executing lsblk with arguments = -fas
