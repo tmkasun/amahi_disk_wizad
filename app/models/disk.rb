@@ -4,39 +4,33 @@ class Disk #< ActiveRecord::Base
 
   require "disk_tools"
 
-  attr_reader  :path, :removable,:model, :type, :size, :free_bytes, :used_bytes,:fs_type, :mount_point
+  attr_reader  :model,:model, :size, :rm
   attr_accessor :kname, :partitions
 
   def initialize disk
-    @model = disk[:model]
-    @kname = disk[:kname]
-    #TODO: Composite object Partition , i.e.: Disk has_many Partitions
-    @partitions = disk[:partitions]
-    @removable = self.removable?
-
-    @type = disk[:type]
-    @fs_type = disk[:fs_type]
-
-    @mount_point = disk[:mount_point]
-    @path = Disk.path disk[:kname]
-
-    @size = disk[:size]
-    @free_bytes = disk[:free_bytes]
-    @used_bytes = disk[:used_bytes]
+    disk.each do |key,value|
+      puts "key = #{key} value = #{value}"
+      instance_variable_set("@#{key}", value) unless value.nil?
+    end
   end
-
-  def partitions device
-    raise "#{__method__} method not implimented !"
-
+  
+  def self.all
+    # return array of Disk objects
+    disks = []
+    devices = DiskWizard.all_devices
+    for device in devices
+      disk = Disk.new device
+      disks.append disk
+    end
+    return disks
   end
 
   def new_disk? disk
     raise "#{__method__} method not implimented !"
-
   end
 
   def removable?
-    DiskUtils.is_removable? @path
+    return self.rm.eql? 1
   end
 
   def Disk.progress
@@ -115,11 +109,6 @@ class Disk #< ActiveRecord::Base
     # re arrange the previous DiskUtils.mounts method
     # DiskUtils.mounts
     PartitionUtils.new.info
-  end
-
-  def self.all
-    # return all the attached disk, including unmounted disks
-    DiskUtils.get_attached_disks
   end
 
   def self.removables

@@ -20,9 +20,10 @@ write_log()
 
 executor(){
 	local command=$1;
-	local arguments=$2;
-	echo  "Start executing $command with arguments = $arguments" | write_log;
-	exec $command "$arguments" #>> dsw.log 2>&1;
+	shift;
+	local params="$*";
+	echo  "Start executing $command with arguments = $params" | write_log;
+	exec sudo $command $params #>> dsw.log 2>&1;
 }
 
 if [ $# -lt 2 ]
@@ -33,7 +34,7 @@ fi
 
 command=$1;
 shift;
-arguments=$*;
+arguments="$@";
 
 # Pattern matching Ref: http://goo.gl/JnXS5y
 case $command in
