@@ -23,7 +23,7 @@ class DiskWizard
       partitions = []
       disks = []
       disk = nil
-      if DEBUG_MODE || Platform.ubuntu? or Platform.fedora? 
+      if DEBUG_MODE or Platform.ubuntu? or Platform.fedora? 
         command = "lsblk"
         params = "-b -P -o MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
       end
@@ -52,11 +52,32 @@ class DiskWizard
         end
         if data_hash['type'] == "part"
           data_hash.except!('model')
+          data_hash.merge! self.usage data_hash['kname']
           disk["partitions"].nil? ?  disk["partitions"] = [data_hash] : disk["partitions"].push(data_hash)
         end
       end
       disks.push disk
       return disks      
+    end
+    
+    def usage disk
+      if disk.kind_of? Disk
+        kname = disk.kname
+      else
+        kname = disk
+      end
+      if DEBUG_MODE or Platform.ubuntu? or Platform.fedora? 
+        command = "df"
+        params = "--block-size=1 /dev/#{kname}"
+      end
+      
+      df = DiskCommand.new command, params
+      df.execute
+      return false if not df.success?
+      line = df.result.lines.pop
+      line.gsub!(/"/, '')
+      df_data =  line.split(" ")
+      return {'used'=> df_data[2].to_i,'available'=> df_data[3].to_i}
     end
     
 

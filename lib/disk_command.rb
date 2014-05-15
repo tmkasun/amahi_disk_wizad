@@ -56,6 +56,7 @@ class DiskCommand
       return false
     end    
     @pid = @wait_thr.pid
+    @result = @stdout.read
     @success = @wait_thr.value.success?
   end
   
@@ -64,7 +65,7 @@ class DiskCommand
   end
   
   def result
-    return @stdout.read
+    return @result
   end
   private
   
