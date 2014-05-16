@@ -25,8 +25,8 @@ class Disk #< ActiveRecord::Base
     return disks
   end
 
-  def new_disk? disk
-    raise "#{__method__} method not implimented !"
+  def partition_table
+    return DiskWizard.partition_table self
   end
 
   def removable?
@@ -106,9 +106,7 @@ class Disk #< ActiveRecord::Base
   end
 
   def self.mounts
-    # re arrange the previous DiskUtils.mounts method
-    # DiskUtils.mounts
-    PartitionUtils.new.info
+    return PartitionUtils.new.info
   end
 
   def self.removables
@@ -126,28 +124,14 @@ class Disk #< ActiveRecord::Base
   end
 
   def self.new_disks
-    attached_devices = DiskUtils.get_attached_disks
-    fstab = Fstab.new
-
-    new_disks = []
-    
-    for device in attached_devices
-      puts "DEBUG:******************#{device}"
-      device_clone = device.clone
-      device_clone['partitions'] = nil # flush partitions
-      unless device['partitions'].nil? 
-        device['partitions'].each do |partition|
-          puts "DEBUG:******************#{partition}"
-          dev_path = "/dev/#{partition['KNAME']}"
-          unless fstab.has_device? dev_path
-            device_clone["partitions"].nil? ?  device_clone["partitions"] = [partition] : device_clone["partitions"].push(partition)
-          end
-        end
-      end
-      new_disks.push device_clone if((not device_clone['partitions'].nil?) or device['partitions'].nil?)
+    all_devices = Disk.all
+    unmounted_devices = []
+    for device in all_devices
+       unmounted_devices.push device if device.partitions.blank?
+       device.partitions.delete_if {|partition| not(partition['mountpoint'].nil?) }
+       unmounted_devices.push device if not device.partitions.blank?
     end
-    # returns a array of hashes wich contains information about unmounted(not included in fstab) partitions or new storage disk(device)
-    return new_disks
+    return unmounted_devices
   end
 
   def format_job params_hash

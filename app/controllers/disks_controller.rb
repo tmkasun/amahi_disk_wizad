@@ -4,7 +4,6 @@ class DisksController < ApplicationController
   def select_device
     @mounted_disks = Disk.mounts
     @new_disks = Disk.new_disks
-  # render text: "#{@new_disks} </br></br></br></br></br> #{@mounted_disks}"
   end
 
   def select_fs
