@@ -18,7 +18,6 @@ class DiskWizard
     DEBUG_MODE = true #TODO: Allow dynamically set value
     # Return an array of all the attached devices, including hard disks,flash/removable/external devices etc.
     def all_devices
-      device = {}
       partitions = []
       disks = []
       disk = nil
@@ -80,27 +79,41 @@ class DiskWizard
     end
 
     def find kname
-      kname =~ /[0-9]\z/ ? d = nil : d = "d"
+      kname =~ /[0-9]\z/ ? partition = true : partition = false
       if DEBUG_MODE or Platform.ubuntu? or Platform.fedora?
         command = "lsblk"
-        params = "/dev/#{kname} -b#{d}Po MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
+        params = "/dev/#{kname} -bPo MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
       end
       #partition
       lsblk = DiskCommand.new command, params
       lsblk.execute
       return false if not lsblk.success?
-      data_hash = {}
-      raw_line = lsblk.result
-      raw_line.squish!
-      splited_data = raw_line.gsub!(/"(.*?)"/,'\1,').split ","
-      for data in splited_data
-        data.strip!
-        key , value = data.split "="
-        data_hash[key.downcase] = value
+      partitions = []
+      disk = nil
+      lsblk.result.each_line do |line|
+        data_hash = {}
+        line.squish!
+        line_data = line.gsub!(/"(.*?)"/,'\1,').split ","
+        for data in line_data
+          data.strip!
+          key , value = data.split "="
+          data_hash[key.downcase] = value
+        end
+        data_hash['rm'] = data_hash['rm'].to_i
+        if data_hash['type'] == "disk"
+          data_hash.except!('uuid','label','mountpoint','fstype')
+          disk = data_hash
+          next
+        end
+        if data_hash['type'] == "part"
+          data_hash.except!('model')
+          data_hash.merge! self.usage data_hash['kname']
+          partitions.push(data_hash)
+        end
       end
-      usage = self.usage kname
-      data_hash.merge! usage
-      return data_hash
+      disk['partitions'] = partitions if disk
+      partitions = partitions[0] if partition
+      return disk || partitions
     end
 
     def partition_table disk

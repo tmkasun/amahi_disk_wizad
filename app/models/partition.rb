@@ -14,17 +14,20 @@
 # License along with this program; if not, write to the Amahi
 # team at http://www.amahi.org/ under "Contact Us."
 class Partition
-  attr_reader  :disk,:fstype,:size, :mountpoint, :used, :available
+  attr_reader  :fstype,:size, :mountpoint, :used, :available
   attr_accessor :kname
 
   def initialize partition
     partition.each do |key,value|
-      puts "key = #{key} value = #{value}"
       instance_variable_set("@#{key}", value) unless value.nil?
     end
-    # `@disk` a Disk object
+  end
+  
+  def disk
+    # `@disk` is a Disk object
     # Partition has_one Disk relationship
     @disk ||= get_disk
+    return @disk
   end
   
   private

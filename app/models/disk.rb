@@ -9,10 +9,15 @@ class Disk #< ActiveRecord::Base
 
   def initialize disk
     disk.each do |key,value|
-      puts "key = #{key} value = #{value}"
+      if key.eql? 'partitions' and value
+        @partitions = []
+        for partition in value
+          @partitions.push Partition.new partition
+        end
+        next
+      end
       instance_variable_set("@#{key}", value) unless value.nil?
     end
-    @partitions ||= get_partitions
   end
   
   def self.all
