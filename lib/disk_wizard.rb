@@ -32,8 +32,8 @@ class DiskWizard
 
       lsblk.result.each_line do |line|
         data_hash = {}
+        line.squish!
         line_data = line.gsub!(/"(.*?)"/,'\1,').split ","
-        line_data.pop
         for data in line_data
           data.strip!
           key , value = data.split "="
@@ -80,11 +80,27 @@ class DiskWizard
     end
 
     def find kname
+      kname =~ /[0-9]\z/ ? d = nil : d = "d"
       if DEBUG_MODE or Platform.ubuntu? or Platform.fedora?
         command = "lsblk"
-        params = "/dev/#{kname} -b -P -o MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
+        params = "/dev/#{kname} -b#{d}Po MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
       end
-    #TODO: return device / partition hash
+      #partition
+      lsblk = DiskCommand.new command, params
+      lsblk.execute
+      return false if not lsblk.success?
+      data_hash = {}
+      raw_line = lsblk.result
+      raw_line.squish!
+      splited_data = raw_line.gsub!(/"(.*?)"/,'\1,').split ","
+      for data in splited_data
+        data.strip!
+        key , value = data.split "="
+        data_hash[key.downcase] = value
+      end
+      usage = self.usage kname
+      data_hash.merge! usage
+      return data_hash
     end
 
     def partition_table disk
@@ -107,11 +123,11 @@ class DiskWizard
         elsif line.strip =~ /^Partition Table:/
           #TODO: Need to test for all the types of partition tables
           table_type = line.match(/^Partition Table:(.*)/i).captures[0].strip
-          return table_type
+        return table_type
         end
-      
+
       end
-      
+
     end
 
   end

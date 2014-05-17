@@ -4,7 +4,7 @@ class Disk #< ActiveRecord::Base
 
   require "disk_tools"
 
-  attr_reader  :model,:model, :size, :rm
+  attr_reader  :model, :size, :rm
   attr_accessor :kname, :partitions
 
   def initialize disk
@@ -12,6 +12,7 @@ class Disk #< ActiveRecord::Base
       puts "key = #{key} value = #{value}"
       instance_variable_set("@#{key}", value) unless value.nil?
     end
+    @partitions ||= get_partitions
   end
   
   def self.all
@@ -33,10 +34,43 @@ class Disk #< ActiveRecord::Base
     return self.rm.eql? 1
   end
 
+  def self.mounts
+    return PartitionUtils.new.info
+  end
+
+  def self.new_disks
+    all_devices = Disk.all
+    unmounted_devices = []
+    for device in all_devices
+       unmounted_devices.push device if device.partitions.blank?
+       device.partitions.delete_if {|partition| not(partition['mountpoint'].nil?) }
+       unmounted_devices.push device if not device.partitions.blank?
+    end
+    return unmounted_devices
+  end
+  
   def Disk.progress
     current_progress = Setting.find_by_kind_and_name('disk_wizard', 'operation_progress')
     return 0 unless current_progress
     current_progress.value.to_i
+  end
+
+  def path
+    if @kname =~ /(\/\w+\/).+/
+      path = @kname
+    else
+      path = "/dev/%s" % @kname
+    end
+    return path
+  end
+
+  def self.find disk
+    data_hash =  DiskWizard.find disk
+    if data_hash['type'].eql? 'part'
+      return Partition.new data_hash
+    else
+      return Disk.new data_hash
+    end
   end
 
   def Disk.progress_message(percent)
@@ -51,6 +85,24 @@ class Disk #< ActiveRecord::Base
     when -1 then "Fail (check /var/log/amahi-app-installer.log)."
     else "Unknown status at #{percent}% ."
     end
+  end
+
+  # class methods for retrive information about the disks attached to the HDA
+
+  def Disk.progress=(percentage)
+    #TODO: if user runs disk_wizard in two browsers concurrently,identifier should set to unique kname of the disk
+    current_progress = Setting.find_or_create_by('disk_wizard', 'operation_progress', percentage)
+    if percentage.nil?
+      current_progress && current_progress.destroy
+      return nil
+    end
+    current_progress.update_attribute(:value, percentage.to_s)
+    percentage
+  end
+
+  def self.removables
+    # return an array of removable (Disk objects) device absolute paths
+    DiskUtils.removables
   end
 
   def mount disk
@@ -72,68 +124,7 @@ class Disk #< ActiveRecord::Base
     raise "#{__method__} method not implimented !"
 
   end
-
-  # class methods for retrive information about the disks attached to the HDA
-
-  def Disk.progress=(percentage)
-    #TODO: if user runs disk_wizard in two browsers concurrently,identifier should set to unique kname of the disk
-    current_progress = Setting.find_or_create_by('disk_wizard', 'operation_progress', percentage)
-    if percentage.nil?
-      current_progress && current_progress.destroy
-      return nil
-    end
-    current_progress.update_attribute(:value, percentage.to_s)
-    percentage
-  end
-
-  def self.find disk
-    path = Disk.path disk
-    puts "DEBUG:*************** path = #{path}"
-    partition = true if Integer(disk[-1]) rescue false
-    if partition
-      partition = DiskUtils.find path
-      partition["MODEL"] = DiskUtils.find(path[0..-2])["MODEL"]
-      puts "DEBUG:*************** partition = #{partition}"
-      return Disk.new({model: partition["MODEL"],type: partition["TYPE"], size: partition["SIZE"],\
-        kname: partition["KNAME"], mount_point: partition["MOUNTPOINT"], fs_type: partition["FSTYPE"],\
-        free_bytes: partition["BYTES_FREE"], used_bytes: partition["BYTES_USED"]})
-    else
-      disk = DiskUtils.find path
-      puts "DEBUG:**************** disk = #{disk}"
-      return Disk.new({model: disk["MODEL"],type: disk["TYPE"], size: disk["SIZE"],\
-        kname: disk["KNAME"], mount_point: disk["MOUNTPOINT"], fs_type: disk["FSTYPE"]})
-    end
-  end
-
-  def self.mounts
-    return PartitionUtils.new.info
-  end
-
-  def self.removables
-    # return an array of removable (Disk objects) device absolute paths
-    DiskUtils.removables
-  end
-
-  def self.path disk
-    if disk =~ /(\/\w+\/).+/
-      path = disk
-    else
-      path = "/dev/%s" % disk
-    end
-    path
-  end
-
-  def self.new_disks
-    all_devices = Disk.all
-    unmounted_devices = []
-    for device in all_devices
-       unmounted_devices.push device if device.partitions.blank?
-       device.partitions.delete_if {|partition| not(partition['mountpoint'].nil?) }
-       unmounted_devices.push device if not device.partitions.blank?
-    end
-    return unmounted_devices
-  end
-
+  
   def format_job params_hash
     puts "DEBUG:********** format_job params_hash #{params_hash}"
     Disk.progress = 10
