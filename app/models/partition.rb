@@ -30,6 +30,10 @@ class Partition
     return @disk
   end
   
+  def path
+    return "/dev/#{@kname}"
+  end
+  
   private
   
   def get_disk

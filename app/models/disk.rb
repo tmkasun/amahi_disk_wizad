@@ -44,11 +44,15 @@ class Disk #< ActiveRecord::Base
   end
 
   def self.new_disks
+    fstab = Fstab.new
     all_devices = Disk.all
     unmounted_devices = []
     for device in all_devices
-       unmounted_devices.push device if device.partitions.blank?
-       device.partitions.delete_if {|partition| not(partition['mountpoint'].nil?) }
+       if device.partitions.blank?
+         unmounted_devices.push device
+         next
+       end
+       device.partitions.delete_if {|partition| (fstab.has_device? partition.path )}
        unmounted_devices.push device if not device.partitions.blank?
     end
     return unmounted_devices
