@@ -40,10 +40,10 @@ class DiskCommand
     begin
       if blocking
         Open3.popen3("sudo","./dsk-wz.sh",@command,@parameters,:chdir=>script_location) {|stdin, stdout, stderr, wait_thr|
-          @stdin = stdin ;@stdout = stdout ;@stderr = stderr ;@wait_thr = wait_thr
+          @stdout = stdout ;@stderr = stderr ;@wait_thr = wait_thr
         }
       else
-        @stdin, @stdout, @stderr, @wait_thr = Open3.popen3("sudo","./dsk-wz.sh",@command,@parameters,:chdir=>script_location)
+        _, @stdout, @stderr, @wait_thr = Open3.popen3("sudo","./dsk-wz.sh",@command,@parameters,:chdir=>script_location)
       end
     rescue => error
       # Errno::ENOENT: No such file or directory `@command`
