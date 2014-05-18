@@ -27,7 +27,7 @@ class DiskWizard
       end
       lsblk = DiskCommand.new command, params
       lsblk.execute
-      return false if not lsblk.success?
+      raise "Command execution error: #{lsblk.stderr.read}" if not lsblk.success?
 
       lsblk.result.each_line do |line|
         data_hash = {}
@@ -59,11 +59,7 @@ class DiskWizard
     end
 
     def usage disk
-      if disk.kind_of? Disk
-      kname = disk.kname
-      else
-      kname = disk
-      end
+      kname = get_kname disk
       if DEBUG_MODE or Platform.ubuntu? or Platform.fedora?
         command = "df"
         params = "--block-size=1 /dev/#{kname}"
@@ -71,7 +67,7 @@ class DiskWizard
 
       df = DiskCommand.new command, params
       df.execute
-      return false if not df.success?
+      raise "Command execution error: #{df.stderr.read}" if not df.success?
       line = df.result.lines.pop
       line.gsub!(/"/, '')
       df_data =  line.split(" ")
@@ -87,7 +83,7 @@ class DiskWizard
       #partition
       lsblk = DiskCommand.new command, params
       lsblk.execute
-      return false if not lsblk.success?
+      raise "Command execution error: #{lsblk.stderr.read}" if not lsblk.success?
       partitions = []
       disk = nil
       lsblk.result.each_line do |line|
@@ -102,13 +98,13 @@ class DiskWizard
         data_hash['rm'] = data_hash['rm'].to_i
         if data_hash['type'] == "disk"
           data_hash.except!('uuid','label','mountpoint','fstype')
-          disk = data_hash
-          next
+        disk = data_hash
+        next
         end
         if data_hash['type'] == "part"
           data_hash.except!('model')
           data_hash.merge! self.usage data_hash['kname']
-          partitions.push(data_hash)
+        partitions.push(data_hash)
         end
       end
       disk['partitions'] = partitions if disk
@@ -117,11 +113,7 @@ class DiskWizard
     end
 
     def partition_table disk
-      if disk.kind_of? Disk
-      kname = disk.kname
-      else
-      kname = disk
-      end
+      kname = get_kname disk
       if DEBUG_MODE or Platform.ubuntu? or Platform.fedora?
         command = "parted"
         params = "--script /dev/#{kname} print"
@@ -131,16 +123,66 @@ class DiskWizard
       return false if not parted.success?
 
       parted.result.each_line do |line|
-        if line.strip =~ /^Error:/
-          return nil
-        elsif line.strip =~ /^Partition Table:/
+        if line.strip =~ /^Partition Table:/
           #TODO: Need to test for all the types of partition tables
           table_type = line.match(/^Partition Table:(.*)/i).captures[0].strip
-        return table_type
-        end
-
+          return table_type
+        end    
       end
+    end
 
+    def umount disk
+      kname = get_kname disk
+      command = "umount"
+      params = "/dev/#{kname}"
+      umount = DiskCommand.new command,params
+      umount.execute
+      raise "Command execution error: #{umount.stderr.read}" if not umount.success?
+    end
+    
+    def mount mount_point, disk
+      fstab = Fstab.new
+      fstab.add_fs(disk.path,mount_point,'auto','auto,rw,exec',0,0)
+      
+      #remount all
+      command = "mount"
+      params = "#{disk.path} #{mount_point}"
+      mount = DiskCommand.new command,params
+      mount.execute
+      raise "Command execution error: #{mount.stderr.read}" if not mount.success?
+    end
+
+    def format disk, fstype
+      fstype = "vfat" if fstype == "fat32"
+      command = "mkfs.#{fstype} "
+      params = "-q -F #{disk.path}" #-F parameter to ignore warning and -q for quiet execution
+      
+      mkfs = DiskCommand.new command, params
+      mkfs.execute
+      raise "Command execution error: #{mkfs.stderr.read}" if not mkfs.success?    
+    end
+    
+    def create_partition
+      
+    end
+    
+    def create_mount_point mount_point
+      command = 'mkdir'
+      params = '-p #{mount_point}'
+      mkdir = DiskCommand.new command, params
+      mkdir.execute
+      raise "Command execution error: #{mkdir.stderr.read}" if not mkdir.success?    
+    end
+
+    private
+
+    def get_kname disk
+      if disk.kind_of? Disk or disk.kind_of? Partition
+      kname = disk.kname
+      else
+      kname = disk
+      end
+      return kname
     end
 
   end

@@ -75,16 +75,17 @@ class Fstab
     end
 
     backup_fstab
-    puts "DEBUG:********** @contents = #{@contents}"
-    puts "DEBUG:********** dev = #{dev} , opts = #{opts}"
-    puts "DEBUG:********** format_entry(dev, opts) = #{format_entry(dev, opts)}"
     #TODO: Append format_entry(dev, opts) to "/etc/fstab" by using "Command" library not using File.open
-    Command.new("echo '#{@contents}' > /etc/fstab ").run_now
-    Command.new("echo '#{format_entry(dev, opts)}' >> /etc/fstab ").run_now
-    # File.open @file, 'w' do |f|
-      # f.puts @contents
-      # f.puts format_entry(dev, opts)
-    # end
+    command = "echo"
+    params = "  #{@contents} ! sudo tee /etc/fstab"
+    echo = DiskCommand.new command,params
+    echo.execute
+    raise "Command execution error: #{echo.stderr.read}" if not echo.success?
+    command = "echo"
+    params = " #{format_entry(dev, opts)} ! sudo tee -a /etc/fstab"
+    echo = DiskCommand.new command,params
+    echo.execute
+    raise "Command execution error: #{echo.stderr.read}" if not echo.success?
     reload
   end
 
@@ -292,9 +293,13 @@ class Fstab
 
   def backup_fstab
     return unless @backup
-    puts "DEBUG:********************command = echo #{@contents} > #{@backup_dir}/fstab.#{Time.now.to_f}.bak"
-    Command.new("echo #{@contents} > #{@backup_dir}/fstab.#{Time.now.to_f}.bak").run_now
-    #TODO: Replace Rails method with "Command" like above
+    #sh -c "echo 'something' >> /etc/privilegedfile"
+    command = "echo"
+    params = " #{@contents} ! sudo tee  #{@backup_dir}/fstab.#{Time.now.to_f}.bak"
+    
+    echo = DiskCommand.new command,params
+    echo.execute
+    raise "Command execution error: #{echo.stderr.read}" if not echo.success?
     # File.open("#{@backup_dir}/fstab.#{Time.now.to_f}.bak", 'w') do |f|
       # f.puts @contents
     # end

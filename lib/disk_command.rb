@@ -53,8 +53,8 @@ class DiskCommand
     @exit_status = @wait_thr.value.exitstatus
     if not(@exit_status.equal? 0 or not @success)
       @success = false
-      return false
-    end    
+      raise @stderr.read
+    end
     @pid = @wait_thr.pid
     @result = @stdout.read
     @success = @wait_thr.value.success?

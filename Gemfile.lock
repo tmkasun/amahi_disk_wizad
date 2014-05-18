@@ -26,10 +26,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     arel (4.0.2)
-    bootstrap-sass (3.1.1.1)
-      sass (~> 3.2)
     builder (3.1.4)
-    chartkick (1.2.4)
     commonjs (0.2.7)
     erubis (2.7.0)
     excon (0.33.0)
@@ -116,8 +113,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass
-  chartkick
   excon
   execjs
   jquery-rails

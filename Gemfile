@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'bootstrap-sass'                      #bootstrap-sass is a Sass-powered version of Bootstrap, ready to drop right into your Sass powered applications.
+#gem 'bootstrap-sass'                      #bootstrap-sass is a Sass-powered version of Bootstrap, ready to drop right into your Sass powered applications.
 gem 'rails', '4.0.0'
 
 gem 'execjs'
@@ -20,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem "chartkick" #Create beautiful Javascript charts with one line of Ruby. No more fighting with charting libraries!
+#gem "chartkick" #Create beautiful Javascript charts with one line of Ruby. No more fighting with charting libraries!
 
 gem 'slim', '~> 1.3.8'
 
