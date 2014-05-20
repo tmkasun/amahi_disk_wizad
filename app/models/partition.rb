@@ -34,11 +34,11 @@ class Partition
   end
 
   def unmount
-    DiskWizard.umount self
+    Diskwz.umount self
   end
   
   def format fstype
-      DiskWizard.format self, fstype
+      Diskwz.format self, fstype
   end
 
   def format_job params_hash
@@ -55,7 +55,7 @@ class Partition
     label = params_hash['label'] || self.kname
     mount_point = File.join "/var/hda/files/drives/", label
     FileUtils.mkdir_p mount_point unless File.directory?(mount_point)
-    DiskWizard.mount mount_point, self
+    Diskwz.mount mount_point, self
     Disk.progress = 80
   end
 

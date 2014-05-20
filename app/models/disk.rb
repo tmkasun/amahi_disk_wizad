@@ -23,7 +23,7 @@ class Disk #< ActiveRecord::Base
   def self.all
     # return array of Disk objects
     disks = []
-    devices = DiskWizard.all_devices
+    devices = Diskwz.all_devices
     for device in devices
       disk = Disk.new device
       disks.append disk
@@ -32,7 +32,7 @@ class Disk #< ActiveRecord::Base
   end
 
   def partition_table
-    return DiskWizard.partition_table self
+    return Diskwz.partition_table self
   end
 
   def removable?
@@ -74,7 +74,7 @@ class Disk #< ActiveRecord::Base
   end
 
   def self.find disk
-    data_hash =  DiskWizard.find disk
+    data_hash =  Diskwz.find disk
     if data_hash['type'].eql? 'part'
       return Partition.new data_hash
     else
@@ -120,7 +120,7 @@ class Disk #< ActiveRecord::Base
   end
 
   def unmount
-    DiskWizard.umount self
+    Diskwz.umount self
   end
 
   def create_partition partition_params_hash
@@ -137,7 +137,7 @@ class Disk #< ActiveRecord::Base
     puts "DEBUG:********** format_job params_hash #{params_hash}"
     Disk.progress = 10
     puts "DEBUG:*********** umount @path umount #{self.path}"
-    unmount
+    unmount if mountpoint
     new_fstype = params_hash[:fs_type]
     if self.kind_of? Disk
       puts "DEBUG:*********** umount @path umount #{self.path}"

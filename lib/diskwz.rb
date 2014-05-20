@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public
 # License along with this program; if not, write to the Amahi
 # team at http://www.amahi.org/ under "Contact Us."
-class DiskWizard
+class Diskwz
   class << self
     DEBUG_MODE = true #TODO: Allow dynamically set value
     # Return an array of all the attached devices, including hard disks,flash/removable/external devices etc.
@@ -154,8 +154,9 @@ class DiskWizard
 
     def format disk, fstype
       fstype = "vfat" if fstype == "fat32"
+       fstype == "ntfs" ? quick_format = "-f" : quick_format = nil
       command = "mkfs.#{fstype} "
-      params = "-q -F #{disk.path}" #-F parameter to ignore warning and -q for quiet execution
+      params = "-q #{quick_format} -F #{disk.path}" #-F parameter to ignore warning and -q for quiet execution
       
       mkfs = DiskCommand.new command, params
       mkfs.execute

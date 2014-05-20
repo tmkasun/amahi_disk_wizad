@@ -1,6 +1,6 @@
 # human readable name (no localization supported yet)
-name: Disks
+name: DiskWizard
 # class to be mounted
-class: Disks
+class: DiskWizards
 # root url where this plugin will be mounted
-url: /tab/disks
+url: /tab/disk_wizards
