@@ -16,6 +16,8 @@
 class Partition
   attr_reader  :fstype,:size, :mountpoint, :used, :available
   attr_accessor :kname
+  @@types = {primary: 'primary', logical: 'logical', extended: 'extended'}
+  cattr_reader :types
   def initialize partition
     partition.each do |key,value|
       instance_variable_set("@#{key}", value) unless value.nil?

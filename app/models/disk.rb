@@ -123,9 +123,15 @@ class Disk #< ActiveRecord::Base
     Diskwz.umount self
   end
 
-  def create_partition partition_params_hash
-    raise "#{__method__} method not implimented !"
+  #TODO: extend to create new partitions on unallocated spaces
+  def create_partition size = nil, type = Partition.types[:primary]
+    new_partition_kname = Diskwz.create_partition self
+    new_partition = Disk.find new_partition_kname
+    return new_partition
+  end
 
+  def create_partition_table
+    Diskwz.create_partition_table self
   end
 
   def format_to filesystem_type
@@ -135,19 +141,15 @@ class Disk #< ActiveRecord::Base
   
   def format_job params_hash
     puts "DEBUG:********** format_job params_hash #{params_hash}"
+    new_fstype = params_hash[:fs_type]
     Disk.progress = 10
     puts "DEBUG:*********** umount @path umount #{self.path}"
     unmount if mountpoint
-    new_fstype = params_hash[:fs_type]
-    if self.kind_of? Disk
-      puts "DEBUG:*********** umount @path umount #{self.path}"
-    elsif self.kind_of? Partition
-      puts "DEBUG:*********** umount @path umount #{self.path}"
-    end
     #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
-    #TODO: check returned value for errors
+    create_partition_table if not partition_table
+    partition = create_partition
+    partition.format new_fstype
     Disk.progress = 40
-    # @kname = parted_object.format fs_type
   end
 
   def mount_job params_hash
