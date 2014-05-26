@@ -144,11 +144,11 @@ class Disk #< ActiveRecord::Base
     new_fstype = params_hash[:fs_type]
     Disk.progress = 10
     puts "DEBUG:*********** umount @path umount #{self.path}"
-    unmount if mountpoint
     #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
     create_partition_table if not partition_table
     partition = create_partition
     partition.format new_fstype
+    partition.mount params_hash['label']
     Disk.progress = 40
   end
 
