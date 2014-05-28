@@ -8,7 +8,7 @@
 			return false;
 		}
 	</script>
-	<%= form_tag(disk_wizards_engine ? disk_wizards_engine.manage_path : manage_path ,{method: "POST",id:"select_fs", onsubmit: "return check()"}) %>
+	<%= form_tag(defined?(disk_wizards_engine) ? disk_wizards_engine.manage_path : manage_path ,{method: "POST",id:"select_fs", onsubmit: "return check()"}) %>
 	<%= hidden_field_tag 'device', @selected_disk.kname %>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-1">
@@ -74,12 +74,12 @@
 		<div class="row">
 			<ul class="pager">
 				<li class="previous">
-					<%= link_to(disk_wizards_engine ? disk_wizards_engine.select_path : select_path) do %>
+					<%= link_to(defined?(disk_wizards_engine) ? disk_wizards_engine.select_path : select_path) do %>
 					&larr; Back
 					<% end %>
 				</li>
 				<li class="next">
-					<% link_to(disk_wizards_engine ? disk_wizards_engine.manage_path : manage_path) do %>
+					<% link_to(defined?(disk_wizards_engine) ? disk_wizards_engine.manage_path : manage_path) do %>
 					Next &rarr;
 					<% end %>
 					<%= link_to '#', :onclick => "$('#select_fs').submit()" do %>
