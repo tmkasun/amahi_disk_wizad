@@ -134,7 +134,7 @@ class Diskwz
     def umount disk
       kname = get_kname disk
       command = "umount"
-      params = "/dev/#{kname}"
+      params = " -l /dev/#{kname}"
       umount = DiskCommand.new command,params
       umount.execute
       raise "Command execution error: #{umount.stderr.read}" if not umount.success?
@@ -192,7 +192,6 @@ class Diskwz
 
     def delete_partition partition
       raise "#{partition.path} is not a partition" if not partition.is_a? Partition
-      partition.unmount
       command = 'parted'
       params = "--script #{partition.disk.path} rm #{partition.partition_number}"
       parted = DiskCommand.new command, params

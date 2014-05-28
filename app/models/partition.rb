@@ -32,6 +32,7 @@ class Partition
   end
 
   def delete
+    unmount if mountpoint
     Diskwz.delete_partition self
   end
 
