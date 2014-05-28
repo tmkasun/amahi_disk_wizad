@@ -189,6 +189,17 @@ class Diskwz
       parted.execute
       raise "Command execution error: #{parted.stderr.read}" if not parted.success?
     end
+
+    def delete_partition partition
+      raise "#{partition.path} is not a partition" if not partition.is_a? Partition
+      partition.unmount
+      command = 'parted'
+      params = "--script #{partition.disk.path} rm #{partition.partition_number}"
+      parted = DiskCommand.new command, params
+      parted.execute
+      raise "Command execution error: #{parted.stderr.read}" if not parted.success?
+    end
+
     private
 
     def get_kname disk
