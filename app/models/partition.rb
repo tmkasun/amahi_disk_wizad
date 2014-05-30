@@ -32,6 +32,7 @@ class Partition
   end
 
   def delete
+    #TODO: remove fstab entry if disk is permanently mounted
     unmount if mountpoint
     Diskwz.delete_partition self
   end

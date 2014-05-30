@@ -132,6 +132,7 @@ class Diskwz
     end
 
     def umount disk
+      #un-mounting not guaranteed, remain mounted if device is busy
       kname = get_kname disk
       command = "umount"
       params = " -l /dev/#{kname}"
