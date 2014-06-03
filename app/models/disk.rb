@@ -173,5 +173,4 @@ class Disk #< ActiveRecord::Base
       partition.delete
     end
   end
-  
 end

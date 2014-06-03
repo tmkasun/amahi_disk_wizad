@@ -1,4 +1,75 @@
+<script type="text/javascript">
+google.load("visualization", "1", {
+packages : ["corechart"]
+});
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+var data = google.visualization.arrayToDataTable([
+['disk',
+'sda1',{ role: 'tooltip' },{ role: 'style' },{ role: 'annotation' },
+'sda2',{ role: 'tooltip' },{ role: 'style' },{ role: 'annotation' },
+'Free Space',{ role: 'tooltip' },{ role: 'style' }, { role: 'annotation' },
+'sda4',{ role: 'tooltip' },{ role: 'style' },{ role: 'annotation' }
+],
+['sda',
+12,'Primary','stroke-color: #00FFBB; stroke-width: 5;fill-opacity: 0.9',"/dev/sda1 12GB",
+24,'Logical','stroke-color: #775588; stroke-width: 5; fill-opacity: 0.9',"/dev/sda1 24GB",
+5,"Logical",'stroke-color: #775588; stroke-opacity: 0.9; stroke-width: 5; fill-opacity: 0.4','Free space 5GB',
+20, 'Logical','stroke-color: #775588; stroke-opacity: 0.9; stroke-width: 5; fill-opacity: 0.9',"/dev/sda3 20GB"],
+]);
+
+var options = {
+annotations : {
+textStyle : {
+fontName : 'Times-Roman',
+fontSize : 14,
+}
+},
+width : '100%',
+backgroundColor : '#F2F2F2',
+height : 100,
+legend : {
+position : 'top',
+maxLines : 10
+},
+bar : {
+groupWidth : '100%'
+},
+isStacked : true,
+enableInteractivity : true,
+hAxis : {
+viewWindowMode : 'maximized',
+gridlines : {
+color : 'transparent'
+},
+format : '#GB'
+},
+chartArea : {
+width : '95%'
+},
+legend : {
+position : 'top',
+alignment : 'center'
+},
+};
+
+var chart = new google.visualization.BarChart(document.getElementById('disk_stats'));
+google.visualization.events.addListener(chart, 'select', function() {
+var selection = chart.getSelection();
+// alert(data.getValue(selection[0].row, 1));
+});
+chart.draw(data, options);
+}
+</script>
+
 <div class="panel-body">
+	<div class="row">
+		<div class="well" id="disk_stats">
+			<p class="bg-danger">
+				Something went wrong!
+			</p>
+		</div>
+	</div>
 	<script>
 		function check() {
 			if (($('input[type=radio]:checked').size() > 0)) {
@@ -7,31 +78,81 @@
 			alert("Please select a file system type!");
 			return false;
 		}
+
+
+		$('#select_fs :checkbox').click(function() {
+			var $this = $(this);
+			// $this will contain a reference to the checkbox
+			if ($this.is(':checked')) {
+				$('#fs_selector').slideDown();
+			} else {
+				$('#fs_selector').slideUp();
+			}
+		});
+
 	</script>
 	<%= form_tag(defined?(disk_wizards_engine) ? disk_wizards_engine.manage_path : manage_path ,{method: "POST",id:"select_fs", onsubmit: "return check()"}) %>
 	<%= hidden_field_tag 'device', @selected_disk.kname %>
+	<div class="row col-md-10 col-md-offset-1" >
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Mount</th>
+					<th>KName</th>
+					<th>FStype</th>
+					<th>Size</th>
+					<th>Format</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--
+				device['partitions'] reffrence
+				"TYPE"=>"part", "SIZE"=>"104857600", "KNAME"=>"sda1", "MOUNTPOINT"=>nil, "FSTYPE"=>"devtmpfs"
+				-->
+
+				<%
+				device = @selected_disk
+				unless device.partitions.blank?
+				for partition in device.partitions %>
+				<tr class=<%= !!(user_selections['kname'] == partition.kname rescue false) ? "info" : "" %> >
+					<td data-toggle="tooltip" title="Mount point"> <%= partition.mountpoint || "No mount point" %> </td>
+					<td data-toggle="tooltip" title="Disk name"> <%= partition.kname %> </td>
+					<td><% if partition.fstype.nil? %> <span class='glyphicon glyphicon-warning-sign'></span> Unknown
+					<% else %>
+					<%= partition.fstype %>
+					<% end %> </td>
+
+					<td data-toggle="tooltip" title="Total size" > <%= number_to_human_size partition.size %> </td>
+					<td><label> <%= check_box_tag(:format,1,!!(user_selections['format'] && (user_selections['kname'] == partition.kname) rescue false),class: 'format') %> </label></td>
+				</tr>
+				<%
+				end
+				end %>
+			</tbody>
+		</table>
+	</div>
 	<div class="row">
-		<div class="col-md-4 col-md-offset-1">
-			<% "*****************#{@selected_disk}"%>
+		<!--div class="col-md-4 col-md-offset-1">
+		<% "DEBUG:*****************#{@selected_disk}"%>
 
-			<%=
- pie_chart({"Size: #{number_to_human_size @selected_disk.size}" => (@selected_disk.size)},\
-			library: {legend: {position: 'top'}, \
-			is3D: true, \
-			pieSliceText: 'percentage', \
-			tooltip: {text: 'percentage' }, \
-			width: 400, \
-			slices: [{color: '#A44585'},{color: '#00B5F0'}] \
-			})
-%>
-			<div class="has-success has-feedback">
-				<label class="control-label" for="inputSuccess4">Drive selected</label>
-				<input type="text" class="form-control" value="<%= @selected_disk.kind_of?(Disk) ? @selected_disk.model : @selected_disk.disk.model %>" disabled>
-				<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-			</div>
-
+		<%
+		pie_chart({"Size: #{number_to_human_size @selected_disk.size}" => (@selected_disk.size)},\
+		library: {legend: {position: 'top'}, \
+		is3D: true, \
+		pieSliceText: 'percentage', \
+		tooltip: {text: 'percentage' }, \
+		width: 400, \
+		slices: [{color: '#A44585'},{color: '#00B5F0'}] \
+		})
+		%>
+		<div class="has-success has-feedback">
+		<label class="control-label" for="inputSuccess4">Drive selected</label>
+		<input type="text" class="form-control" value="<%= @selected_disk.kind_of?(Disk) ? @selected_disk.model : @selected_disk.disk.model %>" disabled>
+		<span class="glyphicon glyphicon-ok form-control-feedback"></span>
 		</div>
-		<div class="col-md-5 col-md-offset-1">
+
+		</div -->
+		<div class="col-md-5 col-md-offset-4" id="fs_selector" style="display: none;">
 
 			<div class="well">
 
@@ -68,10 +189,6 @@
 
 		</div>
 
-	</div>
-	<div class="row">
-			<%= bar_chart({laho: 2, la: 43, kas: 23, la: 58},:library => {:isStacked => true}) %>
-      
 	</div>
 	<div class="row">
 

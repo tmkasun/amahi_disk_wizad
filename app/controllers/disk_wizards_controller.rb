@@ -19,7 +19,6 @@ class DiskWizardsController < ApplicationController
     end
     flash[:error] = "This will completely erase this new drive! Make sure the selected hard drive is the drive you'd like to erase."
     @selected_disk = Disk.find(device || user_selections['kname'])
-
   end
 
   def manage_disk
