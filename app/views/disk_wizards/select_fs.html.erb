@@ -61,7 +61,6 @@ var selection = chart.getSelection();
 chart.draw(data, options);
 }
 </script>
-
 <div class="panel-body">
 	<div class="row">
 		<div class="well" id="disk_stats">
@@ -90,10 +89,59 @@ chart.draw(data, options);
 			}
 		});
 
+		$('#lahola').contextmenu({
+			target : '#contextMenu',
+			before : function(e, context) {
+				alert("ok");
+				// execute code before context menu if shown
+			},
+			onItem : function(context, e) {
+				// execute on menu item selection
+			}
+		})
 	</script>
 	<%= form_tag(defined?(disk_wizards_engine) ? disk_wizards_engine.manage_path : manage_path ,{method: "POST",id:"select_fs", onsubmit: "return check()"}) %>
 	<%= hidden_field_tag 'device', @selected_disk.kname %>
 	<div class="row col-md-10 col-md-offset-1" >
+		<div id="contextMenu" >
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a tabindex="-1" href="#">New</a>
+				</li>
+				<li>
+					<a tabindex="-1" href="#">Delete</a>
+				</li>
+				<li class="divider"></li>
+				<li>
+					<a tabindex="-1" href="#">Resize/Move</a>
+				</li>
+				<li class="divider"></li>
+				<li>
+					<a tabindex="-1" href="#">Copy</a>
+				</li>
+				<li>
+					<a tabindex="-1" href="#">Past</a>
+				</li>
+				<li class="divider"></li>
+				<li class="dropdown-submenu">
+					<a tabindex="-1" href="#">Format to </a>
+					<ul class="dropdown-menu">
+						<li>
+							<a tabindex="-1" href="#">NTFS</a>
+						</li>
+						<li>
+							<a tabindex="-1" href="#">Ext4</a>
+						</li>
+						<li>
+							<a tabindex="-1" href="#">Ext3</a>
+						</li>
+						<li>
+							<a tabindex="-1" href="#">Fat32</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -114,7 +162,7 @@ chart.draw(data, options);
 				device = @selected_disk
 				unless device.partitions.blank?
 				for partition in device.partitions %>
-				<tr class=<%= !!(user_selections['kname'] == partition.kname rescue false) ? "info" : "" %> >
+				<tr style="position: relative;" data-toggle="context" data-target="#contextMenu" class=<%= !!(user_selections['kname'] == partition.kname rescue false) ? "info context" : "context" %> >
 					<td data-toggle="tooltip" title="Mount point"> <%= partition.mountpoint || "No mount point" %> </td>
 					<td data-toggle="tooltip" title="Disk name"> <%= partition.kname %> </td>
 					<td><% if partition.fstype.nil? %> <span class='glyphicon glyphicon-warning-sign'></span> Unknown
@@ -191,7 +239,6 @@ chart.draw(data, options);
 
 	</div>
 	<div class="row">
-
 		<div class="row">
 			<ul class="pager">
 				<li class="previous">
