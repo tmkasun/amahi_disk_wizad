@@ -71,6 +71,11 @@ chart.draw(data, options);
 	</div>
 	<script>
 		function check() {
+			var selected_partition = $("#partition").attr("value");
+			if (typeof  selected_partition === 'undefined'){
+				alert("No partition selected! on device (" + $("#model").attr('value') + ")");
+				return true;
+			}
 			if (($('input[type=radio]:checked').size() > 0)) {
 				return true;
 			}
@@ -78,30 +83,49 @@ chart.draw(data, options);
 			return false;
 		}
 
-
-		$('#select_fs :checkbox').click(function() {
-			var $this = $(this);
-			// $this will contain a reference to the checkbox
-			if ($this.is(':checked')) {
-				$('#fs_selector').slideDown();
-			} else {
-				$('#fs_selector').slideUp();
-			}
+		$(function() {
+			$('.format').change(function() {
+	            var $this = $(this);
+				// $this will contain a reference to the checkbox
+				if ($this.is(':checked')) {
+					$('#fs_selector').slideDown();
+				} else {
+					$('#fs_selector').slideUp();
+				}
+			});
 		});
 
-		$('#lahola').contextmenu({
-			target : '#contextMenu',
-			before : function(e, context) {
-				alert("ok");
-				// execute code before context menu if shown
-			},
-			onItem : function(context, e) {
-				// execute on menu item selection
-			}
-		})
+		$(function() {
+		    var rows = $('tr:not(:first) td:not(:last-child)');
+		    rows.on('click', function(e) {
+		        var row = $(this);
+				row = row.closest('tr');
+
+		        if (row.hasClass('info')) {
+		            row.removeClass('info');
+		            $("#proceed").html("Skip");
+		            $("#partition").removeAttr("value");
+		            $('input.format').not(this).prop('checked', false);
+		        } else {
+		            rows.closest('tr').removeClass('info');
+		            $('input.format').not(this).prop('checked', false);
+		            row.addClass('info');
+		            $("#proceed").html("Next");
+		            var kname = row.attr("kname");
+		            $("#partition").attr("value",kname);
+		        }
+
+		    });
+		    $(document).bind('selectstart dragstart', function(e) {
+		        e.preventDefault(); return false;
+		    });
+
+		});
 	</script>
 	<%= form_tag(defined?(disk_wizards_engine) ? disk_wizards_engine.manage_path : manage_path ,{method: "POST",id:"select_fs", onsubmit: "return check()"}) %>
 	<%= hidden_field_tag 'device', @selected_disk.kname %>
+	<%= hidden_field_tag 'model', @selected_disk.model %>
+	<%= hidden_field_tag 'partition', nil %>
 	<div class="row col-md-10 col-md-offset-1" >
 		<div id="contextMenu" >
 			<ul class="dropdown-menu" role="menu">
@@ -145,11 +169,11 @@ chart.draw(data, options);
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th>Mount</th>
-					<th>KName</th>
-					<th>FStype</th>
-					<th>Size</th>
-					<th>Format</th>
+					<th style="text-align: center;">Mount</th>
+					<th style="text-align: center;">Label</th>
+					<th style="text-align: center;">FStype</th>
+					<th style="text-align: center;">Size</th>
+					<th style="text-align: center;">Format</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -162,9 +186,9 @@ chart.draw(data, options);
 				device = @selected_disk
 				unless device.partitions.blank?
 				for partition in device.partitions %>
-				<tr style="position: relative;" data-toggle="context" data-target="#contextMenu" class=<%= !!(user_selections['kname'] == partition.kname rescue false) ? "info context" : "context" %> >
+				<tr style="position: relative;cursor: pointer;" kname=<%= partition.kname %> data-toggle="context" data-target="#contextMenu" class=<%= !!(user_selections['kname'] == partition.kname rescue false) ? "info context" : "context" %> >
 					<td data-toggle="tooltip" title="Mount point"> <%= partition.mountpoint || "No mount point" %> </td>
-					<td data-toggle="tooltip" title="Disk name"> <%= partition.kname %> </td>
+					<td data-toggle="tooltip" title="Disk name"> <%= partition.label %> </td>
 					<td><% if partition.fstype.nil? %> <span class='glyphicon glyphicon-warning-sign'></span> Unknown
 					<% else %>
 					<%= partition.fstype %>
@@ -179,28 +203,8 @@ chart.draw(data, options);
 			</tbody>
 		</table>
 	</div>
-	<div class="row">
-		<!--div class="col-md-4 col-md-offset-1">
-		<% "DEBUG:*****************#{@selected_disk}"%>
-
-		<%
-		pie_chart({"Size: #{number_to_human_size @selected_disk.size}" => (@selected_disk.size)},\
-		library: {legend: {position: 'top'}, \
-		is3D: true, \
-		pieSliceText: 'percentage', \
-		tooltip: {text: 'percentage' }, \
-		width: 400, \
-		slices: [{color: '#A44585'},{color: '#00B5F0'}] \
-		})
-		%>
-		<div class="has-success has-feedback">
-		<label class="control-label" for="inputSuccess4">Drive selected</label>
-		<input type="text" class="form-control" value="<%= @selected_disk.kind_of?(Disk) ? @selected_disk.model : @selected_disk.disk.model %>" disabled>
-		<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-		</div>
-
-		</div -->
-		<div class="col-md-5 col-md-offset-4" id="fs_selector" style="display: none;">
+	<div class="row" >
+		<div id="fs_selector" class="col-md-5 col-md-offset-4" style="display: none;">
 
 			<div class="well">
 
@@ -251,7 +255,7 @@ chart.draw(data, options);
 					Next &rarr;
 					<% end %>
 					<%= link_to '#', :onclick => "$('#select_fs').submit()" do %>
-					Next &rarr;
+					<span id="proceed">Skip</span> &rarr;
 					<% end %>
 				</li>
 			</ul>
