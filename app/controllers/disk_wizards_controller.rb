@@ -78,6 +78,7 @@ class DiskWizardsController < ApplicationController
   end
 
   def done
+    flash[:success] = "All disks operations successfully completed!"
     @user_selections = self.user_selections
   end
 
