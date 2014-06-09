@@ -31,9 +31,7 @@ class DiskWizardsController < ApplicationController
 
   def confirmation
     option = params[:option]
-    puts "DEBUG:***************** #{self.user_selections}"
     self.user_selections = {option: option}
-    puts "DEBUG:***************** #{self.user_selections}"
     @selected_disk = Disk.find(user_selections['kname'])
   end
 
