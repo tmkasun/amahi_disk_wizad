@@ -27,7 +27,6 @@ class DiskCommand
   def initialize command, parameters = nil
     @command = command
     @parameters = parameters
-    
   end
 
   # Execute the command with assigned parameters when initializing the object
@@ -38,7 +37,7 @@ class DiskCommand
     check root_folder
     script_location = File.join(root_folder,"elevated/")
     begin
-      Command.new("echo 'Defaults    !requiretty' | tee /etc/sudoers.d/disk_wizard").run_now
+      # Command.new("echo 'Defaults    !requiretty' | tee /etc/sudoers.d/disk_wizard").run_now
       if blocking
         Open3.popen3("sudo","./dsk-wz.sh",@command,@parameters,:chdir=>script_location) {|stdin, stdout, stderr, wait_thr|
           @stdout = stdout ;@stderr = stderr ;@wait_thr = wait_thr
