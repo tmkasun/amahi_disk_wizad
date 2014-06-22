@@ -129,6 +129,7 @@ class Disk #< ActiveRecord::Base
     Diskwz.create_partition self, 1, -1
     new_partition = Disk.find self.kname + "1"
     new_partition.format fstype
+    return new_partition
   end
 
   #TODO: extend to create new partitions on unallocated spaces
@@ -154,7 +155,8 @@ class Disk #< ActiveRecord::Base
     puts "DEBUG:*********** umount @path umount #{self.path}"
     #TODO: check the disk size and pass the relevent partition table type (i.e. if device size >= 3TB create GPT table else MSDOS(MBR))
     create_partition_table unless partition_table
-    full_format new_fstype, params_hash['label']
+    new_partition = full_format new_fstype, params_hash['label']
+    # new_partition.mount params_hash['label']
     Disk.progress = 40
   end
 

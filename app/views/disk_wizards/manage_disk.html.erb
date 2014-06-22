@@ -1,3 +1,4 @@
+<%= render 'shared/header' %>
 <div class="panel-body">
 	<%= form_tag(defined?(disk_wizards_engine) ? disk_wizards_engine.confirmation_path : confirmation_path ,{method: "POST",id:"options"}) %>
 	<%= hidden_field_tag 'device', user_selections['kname'] %>
@@ -13,9 +14,7 @@
 					<div class="checkbox">
 						<label> <%= check_box_tag('option[]',1,!!((user_selections['option'].include? '1') rescue false)) %>
 							<div class="alert alert-info">
-								Mount this drive automatically, Your drive will be available in /var/hda/files/drives/drive#
-								You will then be able to <a href="#" class="alert-link">create new share</a> in this directory to use this drive
-
+								Mount this drive automatically.
 							</div> </label>
 					</div>
 				</li>
@@ -32,3 +31,4 @@
 		<% end %>
 	</div>
 </div>
+<%= render 'shared/footer' %>

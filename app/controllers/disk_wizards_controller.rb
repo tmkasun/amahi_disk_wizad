@@ -1,9 +1,8 @@
 class DiskWizardsController < ApplicationController
-  layout :disk_wizard
+  before_filter :disk_wizard
 
   def disk_wizard
-    puts action_name
-    action_name.eql?('error') ?  'dw_error' : 'disk_wizard'
+    defined?(disk_wizards_engine) ? admin_required : false
   end
 
 
