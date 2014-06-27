@@ -63,7 +63,7 @@ class DiskCommand
       command = {name: @command, parameters: @parameters}
       @@operations_log.push command
     end
-    
+
     if debug
       self.success = -1
       return

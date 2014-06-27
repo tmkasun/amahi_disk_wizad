@@ -26,7 +26,7 @@ class Diskwz
         params = "-b -P -o MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
       end
       lsblk = DiskCommand.new command, params
-      lsblk.execute false, false # None blocking and not debug mode
+      lsblk.execute
       raise "Command execution error: #{lsblk.stderr.read}" if not lsblk.success?
 
       lsblk.result.each_line do |line|
@@ -81,7 +81,7 @@ class Diskwz
         params = "/dev/#{kname} -bPo MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
       end
       lsblk = DiskCommand.new command, params
-      lsblk.execute false, false # None blocking and not debug mode
+      lsblk.execute
       raise "Command execution error: #{lsblk.stderr.read}" if not lsblk.success?
       if lsblk.success == -1
         disk = {"model"=>"N/A", "type"=>"disk", "size"=>nil, "kname"=>"#{kname}", "rm"=>nil, "partitions"=>[]}
@@ -147,25 +147,35 @@ class Diskwz
     end
 
     def mount mount_point, disk
+      DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Init Fstab disk.path = #{disk.path}"
       fstab = Fstab.new
+      DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Add_fs mount_point #{mount_point}"
       fstab.add_fs(disk.path,mount_point,'auto','auto,rw,exec',0,0)
-
+      DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Create directory mount_point = #{mount_point}"
       create_directory mount_point unless File.directory?(mount_point)
 
       #remount all
       command = "mount"
       params = "#{disk.path} #{mount_point}"
       mount = DiskCommand.new command,params
+      DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Mount executing"
       mount.execute
       raise "Command execution error: #{mount.stderr.read}" if not mount.success?
     end
 
     def format disk, fstype
-      fstype = "vfat" if fstype == "fat32" #TODO: mkfs.vfat: invalid option -- 'q'
-      quick_format = (fstype == "ntfs") ? "-f" : nil
       command = "mkfs.#{fstype} "
-      params = "-q #{quick_format} -F #{disk.path}" #-F parameter to ignore warning and -q for quiet execution
-
+      case fstype
+        when "ntfs"
+          params = " -q -f -F #{disk.path}" #-F parameter to ignore warning and -q for quiet execution
+        when "vfat"
+          params = " #{disk.path}"
+        when "ext3" , "ext4"
+          params = " -q -F #{disk.path}"
+        else
+          raise "#{fstype} Filesystem type not supported.Please re-try with diffrent filesystem."
+      end
+      DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Disk.kname = #{disk.kname}, fstype = #{fstype} format params = #{params}"
       mkfs = DiskCommand.new command, params
       mkfs.execute
       raise "Command execution error: #{mkfs.stderr.read}" if not mkfs.success?
@@ -178,6 +188,7 @@ class Diskwz
       parted = DiskCommand.new command, params
       parted.execute
       raise "Command execution error: #{parted.stderr.read}" if not parted.success?
+      probe_kernal device.path
     end
 
 
@@ -187,6 +198,7 @@ class Diskwz
       parted = DiskCommand.new command, params
       parted.execute
       raise "Command execution error: #{parted.stderr.read}" if not parted.success?
+      probe_kernal device.path #inform the OS of partition table changes
     end
 
     def delete_partition partition
@@ -196,6 +208,15 @@ class Diskwz
       parted = DiskCommand.new command, params
       parted.execute
       raise "Command execution error: #{parted.stderr.read}" if not parted.success?
+      probe_kernal device.path
+    end
+
+    def probe_kernal device = nil
+      command = 'partprobe'
+      params = device ? device.path : nil
+      partprobe = DiskCommand.new command, params
+      partprobe.execute
+      raise "Command execution error: #{partprobe.stderr.read}" if not partprobe.success?
     end
 
     private
