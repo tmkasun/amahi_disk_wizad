@@ -225,6 +225,18 @@ class Diskwz
       raise "Command execution error: #{partprobe.stderr.read}" if not partprobe.success?
     end
 
+    def check_service serive_name
+      
+    end
+
+    def start_service serive_name
+
+    end
+
+    def stop_service serive_name
+
+    end
+
     private
 
     def get_kname disk
