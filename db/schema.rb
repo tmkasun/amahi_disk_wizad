@@ -14,10 +14,10 @@
 ActiveRecord::Schema.define(version: 20140509194909) do
 
   create_table "disks", force: true do |t|
-    t.string   "uuid",                               null: false
-    t.string   "mount_point"
-    t.string   "fs_type",           default: "ext4"
-    t.integer  "setup_status_flag", default: 0
+    t.string "uuid", null: false
+    t.string "mount_point"
+    t.string "fs_type", default: "ext4"
+    t.integer "setup_status_flag", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20140509194909) do
   create_table "settings", force: true do |t|
     t.string "name"
     t.string "value"
-    t.string "kind",  default: "general"
+    t.string "kind", default: "general"
   end
 
 end

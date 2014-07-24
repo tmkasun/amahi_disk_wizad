@@ -2,10 +2,109 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8958194a-02a6-49eb-b9c7-ea33cd7a18a1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/404.html" afterPath="$PROJECT_DIR$/public/404.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/422.html" afterPath="$PROJECT_DIR$/public/422.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/500.html" afterPath="$PROJECT_DIR$/public/500.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_alerts.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_alerts.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_badges.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_badges.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/_bootstrap-mincer.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/_bootstrap-mincer.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_border-radius.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_border-radius.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_breadcrumbs.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_breadcrumbs.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_button-groups.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_button-groups.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_buttons.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_buttons.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_buttons.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_buttons.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_carousel.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_carousel.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_close.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_close.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_code.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_code.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_component-animations.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_component-animations.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_dropdowns.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_dropdowns.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_forms.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_forms.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_forms.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_forms.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_glyphicons.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_glyphicons.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_gradients.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_gradients.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_grid-framework.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_grid-framework.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_grid.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_grid.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_grid.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_grid.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_image.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_image.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_input-groups.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_input-groups.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_jumbotron.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_jumbotron.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_labels.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_labels.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_list-group.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_list-group.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_media.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_media.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_mixins.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_mixins.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_modals.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_modals.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_navbar.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_navbar.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_navs.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_navs.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_pager.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_pager.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_panels.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_panels.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_popovers.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_popovers.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_progress-bars.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_progress-bars.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_responsive-utilities.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_responsive-utilities.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_responsive-visibility.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_responsive-visibility.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_scaffolding.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_scaffolding.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_tables.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_tables.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_theme.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_theme.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_thumbnails.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_thumbnails.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_tooltip.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_tooltip.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_type.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_type.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_utilities.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_utilities.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_variables.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_variables.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/mixins/_vendor-prefixes.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_wells.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/_wells.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/affix.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/affix.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/alert.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/alert.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/basic.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/basic.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-contextmenu.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-contextmenu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap-theme.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap-theme.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/bootstrap.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/bootstrap.scss" afterPath="$PROJECT_DIR$/vendor/assets/stylesheets/bootstrap/bootstrap.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/button.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/button.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/carousel.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/carousel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/chartkick.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/chartkick.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/chartkick.rb" afterPath="$PROJECT_DIR$/lib/chartkick.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/collapse.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/collapse.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.ru" afterPath="$PROJECT_DIR$/config.ru" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/disk_wizards/confirmation.html.erb" afterPath="$PROJECT_DIR$/app/views/disk_wizards/confirmation.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/debug_logger.rb" afterPath="$PROJECT_DIR$/lib/debug_logger.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/environments/development.rb" afterPath="$PROJECT_DIR$/config/environments/development.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/device.rb" afterPath="$PROJECT_DIR$/app/models/device.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/disk_command.rb" afterPath="$PROJECT_DIR$/lib/disk_command.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/disk_wizards.rb" afterPath="$PROJECT_DIR$/lib/disk_wizards.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/disks.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/disks.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/diskwz.rb" afterPath="$PROJECT_DIR$/lib/diskwz.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/disk_wizards/done.html.erb" afterPath="$PROJECT_DIR$/app/views/disk_wizards/done.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/dropdown.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/dropdown.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/dw_error.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/dw_error.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/disk_wizards/engine.rb" afterPath="$PROJECT_DIR$/lib/disk_wizards/engine.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/disk_wizards/error.html.erb" afterPath="$PROJECT_DIR$/app/views/disk_wizards/error.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/fstab.rb" afterPath="$PROJECT_DIR$/lib/fstab.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/chartkick/helper.rb" afterPath="$PROJECT_DIR$/lib/chartkick/helper.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/job_queue.rb" afterPath="$PROJECT_DIR$/app/models/job_queue.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/jsapi.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/jsapi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/disk_wizards/manage_disk.html.erb" afterPath="$PROJECT_DIR$/app/views/disk_wizards/manage_disk.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/modal.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/modal.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/operation.rb" afterPath="$PROJECT_DIR$/lib/modules/operation.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/partition.rb" afterPath="$PROJECT_DIR$/app/models/partition.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/partition_utils.rb" afterPath="$PROJECT_DIR$/lib/partition_utils.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/popover.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/popover.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/environments/production.rb" afterPath="$PROJECT_DIR$/config/environments/production.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/disk_wizards/progress.html.erb" afterPath="$PROJECT_DIR$/app/views/disk_wizards/progress.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/progress.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/progress.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/rails" afterPath="$PROJECT_DIR$/bin/rails" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/scrollspy.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/scrollspy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/disk_wizards/select_device.html.erb" afterPath="$PROJECT_DIR$/app/views/disk_wizards/select_device.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/disk_wizards/select_fs.html.erb" afterPath="$PROJECT_DIR$/app/views/disk_wizards/select_fs.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/setting.rb" afterPath="$PROJECT_DIR$/app/models/setting.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/tab.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/tab.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/environments/test.rb" afterPath="$PROJECT_DIR$/config/environments/test.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/tooltip.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/tooltip.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/transition.js" afterPath="$PROJECT_DIR$/vendor/assets/javascripts/bootstrap/transition.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/disk_wizards/version.rb" afterPath="$PROJECT_DIR$/lib/disk_wizards/version.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="amahi_disk_manager.iws" />
@@ -33,61 +132,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="partition.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/partition.rb">
+      <file leaf-file-name="confirmation.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/confirmation.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.56528926" vertical-offset="108" max-vertical-offset="2448">
-              <caret line="25" column="66" selection-start-line="25" selection-start-column="66" selection-end-line="25" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="312" max-vertical-offset="1422">
+              <caret line="29" column="87" selection-start-line="29" selection-start-column="87" selection-end-line="29" selection-end-column="87" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="diskwz.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/diskwz.rb">
+      <file leaf-file-name="select_fs.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/select_fs.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3123" max-vertical-offset="4590">
-              <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="job_queue.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/job_queue.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1656">
-              <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="device.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/device.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2403" max-vertical-offset="3294">
-              <caret line="167" column="18" selection-start-line="167" selection-start-column="18" selection-end-line="167" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="operation.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/modules/operation.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="882">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="disk_wizards_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2736">
-              <caret line="58" column="77" selection-start-line="58" selection-start-column="77" selection-end-line="58" selection-end-column="77" />
+            <state vertical-scroll-proportion="0.16898148" vertical-offset="2482" max-vertical-offset="4734">
+              <caret line="146" column="12" selection-start-line="146" selection-start-column="12" selection-end-line="146" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -108,18 +167,19 @@
       <list>
         <option value="$PROJECT_DIR$/app/models/disk.rb" />
         <option value="$PROJECT_DIR$/lib/disk_wizards.rb" />
-        <option value="$PROJECT_DIR$/app/views/disk_wizards/select_fs.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/shared/_header.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/disk_wizards/confirmation.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/disk_wizards/manage_disk.html.erb" />
         <option value="$PROJECT_DIR$/lib/disk_command.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/disk_wizards/done.html.erb" />
-        <option value="$PROJECT_DIR$/lib/modules/operation.rb" />
-        <option value="$PROJECT_DIR$/app/models/device.rb" />
         <option value="$PROJECT_DIR$/app/models/job_queue.rb" />
+        <option value="$PROJECT_DIR$/app/views/shared/_header.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/device.rb" />
+        <option value="$PROJECT_DIR$/lib/modules/operation.rb" />
         <option value="$PROJECT_DIR$/lib/diskwz.rb" />
         <option value="$PROJECT_DIR$/app/models/partition.rb" />
+        <option value="$PROJECT_DIR$/app/views/disk_wizards/select_device.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/disk_wizards/manage_disk.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/disk_wizards/select_fs.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/disk_wizards/confirmation.html.erb" />
       </list>
     </option>
   </component>
@@ -131,9 +191,9 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="width" value="1368" />
-    <option name="height" value="739" />
+    <option name="x" value="1365" />
+    <option name="width" value="1282" />
+    <option name="height" value="1025" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -211,8 +271,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="RailsProjectView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -241,7 +299,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -255,22 +317,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="disk_wizards" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="amahi_disk_manager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="amahi_disk_manager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="RailsProjectView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="SearchEverywhereHistoryKey" value="job&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/models/job_queue.rb&#10;disk_c&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/lib/disk_command.rb&#10;JobQueu&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/models/job_queue.rb&#10;&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/views/disk_wizards/manage_disk.html.erb&#10;disk&#9;null&#9;null&#10;partitio&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="part&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/models/partition.rb&#10;opera&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/lib/modules/operation.rb&#10;disk_w&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/controllers/disk_wizards_controller.rb&#10;path&#9;null&#9;null&#10;TO&#9;ACTION&#9;ActivateTODOToolWindow&#10;.find&#9;null&#9;null&#10;partition_ta&#9;null&#9;null&#10;partiti&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/models/partition.rb&#10;all&#9;null&#9;null&#10;get_disk&#9;null&#9;null&#10;diskwi&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/lib/disk_wizards.rb&#10;job&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/models/job_queue.rb&#10;disk_c&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/lib/disk_command.rb&#10;JobQueu&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/models/job_queue.rb&#10;&#9;FILE&#9;file:///home/kbsoft/Desktop/Uni_work/Level3_semester1/gsoc/amahi/amahi_disk_manager/app/views/disk_wizards/manage_disk.html.erb&#10;disk&#9;null&#9;null&#10;partitio&#9;null&#9;null" />
     <property name="LayoutCode.rearrangeEntriesRuby" value="false" />
     <property name="LayoutCode.rearrangeEntriesRHTML" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
@@ -278,6 +360,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="LayoutCode.rearrangeEntries" value="false" />
   </component>
   <component name="RunManager" selected="Rails.Production: amahi_disk_manager">
     <configuration default="true" type="RakeRunConfigurationType" factoryName="Rake">
@@ -453,15 +536,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1368" height="739" extended-state="6" />
-    <editor active="false" />
+    <frame x="1365" y="0" width="1282" height="1025" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10852713" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975295" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32868218" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20241691" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18497577" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -498,27 +581,60 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/partition.rb">
+    <entry file="file://$PROJECT_DIR$/lib/modules/operation.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2448">
-          <caret line="105" column="60" selection-start-line="105" selection-start-column="60" selection-end-line="105" selection-end-column="60" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="158" max-vertical-offset="1188">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/diskwz.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3123" max-vertical-offset="4590">
-          <caret line="192" column="96" selection-start-line="192" selection-start-column="16" selection-end-line="192" selection-end-column="96" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3141" max-vertical-offset="5220">
+          <caret line="192" column="95" selection-start-line="192" selection-start-column="16" selection-end-line="192" selection-end-column="95" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/job_queue.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1656">
+        <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1656">
           <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/partition.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1560" max-vertical-offset="2448">
+          <caret line="34" column="19" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/diskwz.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4102" max-vertical-offset="5220">
+          <caret line="254" column="9" selection-start-line="254" selection-start-column="9" selection-end-line="254" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/partition.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="2448">
+          <caret line="25" column="66" selection-start-line="25" selection-start-column="66" selection-end-line="25" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/diskwz.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3123" max-vertical-offset="4590">
+          <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job_queue.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1656">
+          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -526,7 +642,50 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2403" max-vertical-offset="3294">
           <caret line="167" column="18" selection-start-line="167" selection-start-column="18" selection-end-line="167" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/operation.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="882">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2736">
+          <caret line="58" column="77" selection-start-line="58" selection-start-column="77" selection-end-line="58" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/partition.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2448">
+          <caret line="105" column="60" selection-start-line="105" selection-start-column="60" selection-end-line="105" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/diskwz.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3123" max-vertical-offset="4590">
+          <caret line="192" column="96" selection-start-line="192" selection-start-column="16" selection-end-line="192" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job_queue.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1656">
+          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/device.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2403" max-vertical-offset="3294">
+          <caret line="167" column="18" selection-start-line="167" selection-start-column="18" selection-end-line="167" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -550,7 +709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1539" max-vertical-offset="2448">
           <caret line="105" column="60" selection-start-line="105" selection-start-column="60" selection-end-line="105" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -558,7 +716,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2403" max-vertical-offset="3330">
           <caret line="163" column="60" selection-start-line="163" selection-start-column="60" selection-end-line="163" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -574,7 +731,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2250">
           <caret line="86" column="20" selection-start-line="86" selection-start-column="20" selection-end-line="86" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -582,7 +738,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="3726">
           <caret line="85" column="19" selection-start-line="85" selection-start-column="19" selection-end-line="85" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -598,7 +753,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2700">
           <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -606,7 +760,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="3726">
           <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -614,7 +767,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2670" max-vertical-offset="4482">
           <caret line="166" column="33" selection-start-line="166" selection-start-column="33" selection-end-line="166" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -622,7 +774,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="693" max-vertical-offset="2232">
           <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -630,7 +781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2700">
           <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -638,7 +788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="3726">
           <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -746,13 +895,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/disk_wizards.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13938053" vertical-offset="0" max-vertical-offset="904">
-          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/chartkick.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.5592635" vertical-offset="486" max-vertical-offset="13752">
@@ -767,50 +909,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/shared/_header.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5344418" vertical-offset="0" max-vertical-offset="1710">
-          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/select_fs.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2365592" vertical-offset="603" max-vertical-offset="4734">
-          <caret line="91" column="9" selection-start-line="81" selection-start-column="6" selection-end-line="91" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/manage_disk.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4375" vertical-offset="144" max-vertical-offset="1008">
-          <caret line="29" column="91" selection-start-line="29" selection-start-column="91" selection-end-line="29" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/confirmation.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35391924" vertical-offset="350" max-vertical-offset="1404">
-          <caret line="36" column="112" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="112" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/disk_command.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27272728" vertical-offset="135" max-vertical-offset="2232">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2736">
-          <caret line="58" column="77" selection-start-line="58" selection-start-column="77" selection-end-line="58" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/done.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3449074" vertical-offset="1736" max-vertical-offset="2898">
@@ -818,42 +916,110 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/operation.rb">
+    <entry file="file://$PROJECT_DIR$/lib/disk_wizards.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="882">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/device.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2403" max-vertical-offset="3294">
-          <caret line="167" column="18" selection-start-line="167" selection-start-column="18" selection-end-line="167" selection-end-column="18" />
-          <folding />
+        <state vertical-scroll-proportion="0.407767" vertical-offset="0" max-vertical-offset="618">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/job_queue.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1656">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1656">
           <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/controllers/disks_controller_test.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="618">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/shared/_header.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.5847751" vertical-offset="1132" max-vertical-offset="1710">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/disk_command.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3322314" vertical-offset="825" max-vertical-offset="2232">
+          <caret line="57" column="6" selection-start-line="57" selection-start-column="6" selection-end-line="57" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/diskwz.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/select_device.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3123" max-vertical-offset="4590">
-          <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
+        <state vertical-scroll-proportion="-11.777778" vertical-offset="402" max-vertical-offset="1710">
+          <caret line="40" column="47" selection-start-line="40" selection-start-column="47" selection-end-line="40" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/manage_disk.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36510792" vertical-offset="85" max-vertical-offset="1008">
+          <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
+          <folding>
+            <element signature="e#1197#1293#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/disk_wizards_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33217993" vertical-offset="870" max-vertical-offset="2790">
+          <caret line="59" column="75" selection-start-line="59" selection-start-column="70" selection-end-line="59" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/operation.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37024793" vertical-offset="388" max-vertical-offset="1332">
+          <caret line="34" column="78" selection-start-line="34" selection-start-column="78" selection-end-line="34" selection-end-column="78" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/partition.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56528926" vertical-offset="108" max-vertical-offset="2448">
-          <caret line="25" column="66" selection-start-line="25" selection-start-column="66" selection-end-line="25" selection-end-column="66" />
+        <state vertical-scroll-proportion="1.0264462" vertical-offset="1341" max-vertical-offset="2232">
+          <caret line="109" column="39" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/diskwz.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5206612" vertical-offset="4275" max-vertical-offset="7416">
+          <caret line="255" column="19" selection-start-line="255" selection-start-column="19" selection-end-line="255" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/device.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3132">
+          <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/confirmation.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="312" max-vertical-offset="1404">
+          <caret line="29" column="87" selection-start-line="29" selection-start-column="87" selection-end-line="29" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/disk_wizards/select_fs.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16898148" vertical-offset="2482" max-vertical-offset="4734">
+          <caret line="146" column="12" selection-start-line="146" selection-start-column="12" selection-end-line="146" selection-end-column="12" />
           <folding />
         </state>
       </provider>
