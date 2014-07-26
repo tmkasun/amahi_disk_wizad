@@ -23,8 +23,8 @@ $(document).ready(function () {
         }
         $('input.format').not(this).prop('checked', false);
         $("#proceed").html("Next");
-        var kname = row.attr("kname");
-        $("#partition").attr("value", kname);
+        var path = row.attr("path");
+        $("#partition").attr("value", path);
 
     });
 });

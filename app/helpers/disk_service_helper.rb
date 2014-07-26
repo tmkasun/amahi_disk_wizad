@@ -1,0 +1,2 @@
+module DiskServiceHelper
+end

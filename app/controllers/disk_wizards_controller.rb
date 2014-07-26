@@ -8,6 +8,7 @@ class DiskWizardsController < ApplicationController
   before_filter :clear_mode, except: [:process_disk]
 
   def select_device
+    Diskwz.clear_multipath
     DebugLogger.info "--disk_wizard_start--"
     @mounted_disks = Device.mounts
     @new_disks = Device.new_disks

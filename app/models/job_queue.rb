@@ -71,9 +71,11 @@ class JobQueue
           x.match(/^(.+?):(\d+)(|:in `(.+)')$/);
           [$1, $2, $4]
         }
-        DebugLogger.info "|#{self.class.name}|>|#{__method__}|:JOB FAILS #{exception.inspect}\n---Backtrace---\n#{backTrace.first(4)}"
+        trace_tree = ""
+        backTrace.first(10).each { |exception| trace_tree += exception.to_sentence + "\n" }
+        DebugLogger.info "|#{self.class.name}|>|#{__method__}|:JOB FAILS #{exception.inspect}\n---Backtrace---\n#{trace_tree}"
         if DiskCommand.debug_mode
-          DebugLogger.info "Exception: #{exception.inspect}\n---Backtrace---\n#{backTrace.first(4)}"
+          DebugLogger.info "Exception: #{exception.inspect}\n---Backtrace---\n#{trace_tree}"
           DiskCommand.operations_log.push({}) unless DiskCommand.operations_log.last
           DiskCommand.operations_log.last[:exception] = exception.inspect
           next

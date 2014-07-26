@@ -1,5 +1,7 @@
 AmahiDiskManager::Application.routes.draw do
 
+  get "disk_service/get_all_devices"
+  get "disk_service/check_label"
 # The priority is based upon order of creation: first created -> highest priority.
 # See how all your routes lay out with "rake routes".
 
