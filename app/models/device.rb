@@ -33,7 +33,7 @@ class Device #< ActiveRecord::Base
   def self.all
     # return array of Disk objects
     devices= []
-    raw_devices = Diskwz.all_devices
+    raw_devices = DiskUtils.all_devices
     for device in raw_devices
       device = Device.new device
       devices.append device
@@ -42,7 +42,7 @@ class Device #< ActiveRecord::Base
   end
 
   def partition_table
-    return Diskwz.partition_table self
+    return DiskUtils.partition_table self
   end
 
   def removable?
@@ -62,7 +62,7 @@ class Device #< ActiveRecord::Base
         unmounted_devices.push device
         next
       end
-      device.partitions.delete_if { |partition| (fstab.has_device? partition.path) }
+      device.partitions.delete_if { |partition| (fstab.has_device? partition.path or partition.mountpoint) }
       unmounted_devices.push device if not device.partitions.blank?
     end
     return unmounted_devices
@@ -98,7 +98,6 @@ class Device #< ActiveRecord::Base
   end
 
   # class methods for retrive information about the disks attached to the HDA
-
   def Device.progress=(percentage)
     #TODO: if user runs disk_wizard in two browsers concurrently,identifier should set to unique kname of the disk
     current_progress = Setting.find_or_create_by('disk_wizard', 'operation_progress', percentage)
@@ -120,23 +119,23 @@ class Device #< ActiveRecord::Base
     DebugLogger.info "class = #{self.class.name}, method = #{__method__}"
     delete_all_partitions unless partitions.blank?
     DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Creating partition #{self.kname}"
-    Diskwz.create_partition self, 1, -1
+    DiskUtils.create_partition self, 1, -1
     DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Find partition #{@kname}"
     self.reload
-    new_partition = self.partitions.last # New partition will be at the last index
+    new_partition = self.partitions.last # Assuming new partition to be at the last index
     DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Formating #{@kname} to #{fstype}"
     new_partition.format fstype and reload
   end
 
   #TODO: extend to create new partitions on unallocated spaces
   def create_partition(size = nil, type = Partition.PartitionType[:TYPE_PRIMARY])
-    Diskwz.create_partition self, size[:start_block], size[:end_block]
+    DiskUtils.create_partition self, size[:start_block], size[:end_block]
     partitions = Device.find(self).partitions
     return partitions.last
   end
 
   def create_partition_table
-    Diskwz.create_partition_table self
+    DiskUtils.create_partition_table self
   end
 
   def format_job params_hash
@@ -156,7 +155,7 @@ class Device #< ActiveRecord::Base
     Device.progress = 60
     kname = @kname
     DebugLogger.info "|#{self.class.name}|>|#{__method__}|:New partition Label #{params_hash[:label]}"
-    new_partition = Device.find kname + "1"
+    new_partition = self.partitions.last
     new_partition.mount params_hash[:label]
     Device.progress = 80
   end

@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public
 # License along with this program; if not, write to the Amahi
 # team at http://www.amahi.org/ under "Contact Us."
-class Diskwz
+class DiskUtils
   class << self
     DEBUG_MODE = true #TODO: Allow dynamically set value
     # Return an array of all the attached devices, including hard disks,flash/removable/external devices etc.
@@ -27,7 +27,7 @@ class Diskwz
         command = "lsblk"
         params = " #{search} -b -P -o VENDOR,MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
       end
-      lsblk = DiskCommand.new command, params
+      lsblk = CommandsExecutor.new command, params
       lsblk.execute
       raise "Command execution error: #{lsblk.stderr.read}" if not lsblk.success?
 
@@ -98,7 +98,7 @@ class Diskwz
         command = "udevadm"
         params = " info  --query=property --name=#{kname}"
       end
-      udevadm = DiskCommand.new command, params
+      udevadm = CommandsExecutor.new command, params
       udevadm.execute false, false # None blocking and not debug mode
       raise "Command execution error: #{udevadm.stderr.read}" if not udevadm.success?
       udevadm.result.each_line do |line|
@@ -116,7 +116,7 @@ class Diskwz
         params = "--block-size=1 /dev/#{kname}"
       end
 
-      df = DiskCommand.new command, params
+      df = CommandsExecutor.new command, params
       df.execute false, false # None blocking and not debug mode
       raise "Command execution error: #{df.stderr.read}" if not df.success?
       line = df.result.lines.pop
@@ -125,69 +125,13 @@ class Diskwz
       return {'used' => df_data[2].to_i, 'available' => df_data[3].to_i}
     end
 
-    # Deprecated only for reference
-    def find path
-      # TODO: Not a reliable way of identifying a partition, use OOP kind_of 'Partition' or 'Device' method instead
-      partition = path =~ /[0-9]\z/ ? true : false
-      if DEBUG_MODE or Platform.ubuntu? or Platform.fedora?
-        command = "lsblk"
-        params = "#{path} -bPo VENDOR,MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM"
-      end
-      lsblk = DiskCommand.new command, params
-      lsblk.execute
-      raise "Command execution error: #{lsblk.stderr.read}" if not lsblk.success?
-      if lsblk.success == -1
-        disk = {"model" => "N/A", "type" => "disk", "size" => nil, "kname" => "#{path}", "rm" => nil, "partitions" => []}
-        partition = {"type" => "part", "size" => nil, "kname" => "#{path}", "uuid" => "N/A", "label" => nil, "mountpoint" => nil, "fstype" => nil, "rm" => nil, "used" => nil, "available" => nil}
-        return partition ? partition : disk
-      end
-      partitions = []
-      disk = nil
-      has_extended = false
-      lsblk.result.each_line do |line|
-        data_hash = {}
-        line.squish!
-        line_data = line.gsub!(/"(.*?)"/, '\1#').split '#'
-        for data in line_data
-          data.strip!
-          key, value = data.split '='
-          data_hash[key.downcase] = value
-        end
-        data_hash['rm'] = data_hash['rm'].to_i
-        if data_hash['type'] == 'disk'
-          data_hash.except!('uuid', 'label', 'mountpoint', 'fstype')
-          disk = data_hash
-          next
-        end
-        if data_hash['type'] == 'mpath'
-          multipath_info = {'mkname' => data_hash['kname'], 'multipath' => true}
-          if disk
-            disk.merge! multipath_info
-          else
-            disk = multipath_info
-          end
-          next
-        end
-
-        if data_hash['type'] == 'part'
-          data_hash.except!('model')
-          data_hash.merge! self.usage data_hash['kname']
-          partitions.push(data_hash)
-        end
-      end
-
-      disk['partitions'] = partitions if disk
-      partitions = partitions[0] if partition
-      return disk || partitions
-    end
-
     def partition_table disk
       kname = get_kname disk
       if DEBUG_MODE or Platform.ubuntu? or Platform.fedora?
         command = "parted"
         params = "-sm /dev/#{kname} unit b  print free" # Use parted machine parseable output,independent from O/S language -s for --script and -m for --machine
       end
-      parted = DiskCommand.new command, params
+      parted = CommandsExecutor.new command, params
       parted.execute false, false # None blocking and not debug mode
       return false if not parted.success?
 
@@ -203,7 +147,7 @@ class Diskwz
       kname = get_kname disk
       command = "umount"
       params = " -fl /dev/#{kname}"
-      umount = DiskCommand.new command, params
+      umount = CommandsExecutor.new command, params
       #TODO: This should be a none-blocking call, until unmount the disk/device successfully, can't proceed with other works
       umount.execute
       raise "Command execution error: #{umount.stderr.read}" if not umount.success?
@@ -220,7 +164,7 @@ class Diskwz
       #remount all
       command = "mount"
       params = "#{disk.path} #{mount_point}"
-      mount = DiskCommand.new command, params
+      mount = CommandsExecutor.new command, params
       DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Mount executing"
       mount.execute
       raise "Command execution error: #{mount.stderr.read}" if not mount.success?
@@ -245,17 +189,16 @@ class Diskwz
       end
       command = "mkfs.#{program_name} "
       DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Disk.kname = #{disk.kname}, fstype = #{fstype} format params = #{params}"
-      mkfs = DiskCommand.new command, params
+      mkfs = CommandsExecutor.new command, params
       mkfs.execute
       raise "Command execution error: #{mkfs.stderr.read}" if not mkfs.success?
     end
 
     #TODO: Need more testing
-    #TODO: align partitions on 1MiB (2048-sector) boundaries
-    def create_partition device, start_block, end_block
+    def create_partition device, partition_type = 'primary', start_unit, end_unit
       command = 'parted'
-      params = "-s -a optimal #{device.path} mkpart primary ext3 #{start_block} -- #{end_block}"
-      parted = DiskCommand.new command, params
+      params = "#{device.path} -s -a optimal unit MB mkpart #{partition_type} ext3 #{start_unit} -- #{end_unit}"
+      parted = CommandsExecutor.new command, params
       parted.execute
       raise "Command execution error: #{parted.stderr.read}" if not parted.success?
       probe_kernal device
@@ -265,7 +208,7 @@ class Diskwz
     def create_partition_table device, type = 'msdos'
       command = 'parted'
       params = "--script #{device.path} mklabel #{type}"
-      parted = DiskCommand.new command, params
+      parted = CommandsExecutor.new command, params
       parted.execute
       raise "Command execution error: #{parted.stderr.read}" if not parted.success?
       probe_kernal device #inform the OS of partition table changes
@@ -282,18 +225,21 @@ class Diskwz
       device_path = partition.device.path
       command = 'parted'
       params = "--script #{device_path} rm #{partition.partition_number}"
-      parted = DiskCommand.new command, params
+      parted = CommandsExecutor.new command, params
       parted.execute
       raise "Command execution error: #{parted.stderr.read}" if not parted.success?
       probe_kernal device_path
     end
 
-    def probe_kernal device = nil
+    def probe_kernal device_path = nil
+      if device_path.instance_of? Partition or device_path.instance_of? Device #TODO: pass only string path value no Partition or Device object
+        device_path = device_path.path
+      end
       commands = {'partprobe' => '', 'udevadm' => ' trigger'}
-      commands['hdparm'] = ' trigger -z #{device}' if not device.nil? # Do not execute 'hdparm' when device/partition is not given.
+      commands['hdparm'] = " -z #{device_path}" if not device_path.nil? # Do not execute 'hdparm' when device/partition is not given.
       DebugLogger.info "|#{self.class.name}|>|#{__method__}|:Commands = #{commands}"
       commands.each do |command, args|
-        executor = DiskCommand.new(command, args)
+        executor = CommandsExecutor.new(command, args)
         executor.execute()
         DebugLogger.info "Command execution error: #{executor.stderr.read}" if not executor.success? # Suppress warnings and errors,don't re-raise the exception.only do notify the kernel,Warnings and errors are out of the DW scope
       end
@@ -323,10 +269,10 @@ class Diskwz
         return "/dev/#{kname}"
       end
       command = "blkid"
-      blkid = DiskCommand.new command, params
+      blkid = CommandsExecutor.new command, params
       DebugLogger.info "|#{self.class.name}|>|#{__method__}|:device = #{device.kname}, uuid = #{device.uuid}, params = #{params}"
       blkid.execute
-      raise "Command execution error: #{blkid.stderr.read}" if not blkid.success?
+      raise "Command execution error:blkid error: #{blkid.stderr.read}" if not blkid.success?
       return blkid.result.lines.first.squish!
     end
 
@@ -337,7 +283,7 @@ class Diskwz
         command = "udevadm"
         params = " info  --query=property --name=#{child_path}"
       end
-      udevadm = DiskCommand.new command, params
+      udevadm = CommandsExecutor.new command, params
       udevadm.execute false, false # None blocking and not debug mode
       raise "Command execution error: #{udevadm.stderr.read}" if not udevadm.success?
       udevadm.result.each_line do |line|
@@ -351,7 +297,7 @@ class Diskwz
         command = "lsblk"
         params = " -b -P -o VENDOR,MODEL,TYPE,SIZE,KNAME,UUID,LABEL,MOUNTPOINT,FSTYPE,RM,MAJ:MIN"
       end
-      lsblk = DiskCommand.new command, params
+      lsblk = CommandsExecutor.new command, params
       lsblk.execute
       raise "Command execution error: #{lsblk.stderr.read}" if not lsblk.success?
       lsblk.result.each_line do |line|
@@ -372,17 +318,21 @@ class Diskwz
     def clear_multipath
       command = 'multipath'
       params = ' -F'
-      multipath = DiskCommand.new command, params
-      multipath.execute
-      raise "Command execution error: #{multipath.stderr.read}" if not multipath.success?
+      multipath = CommandsExecutor.new command, params
+      if which command
+        multipath.execute
+        raise "Command execution error: #{multipath.stderr.read}" if not multipath.success?
+      else
+        return false
+      end
     end
 
     def get_partition_number partition_path
       # Get partition number from Udevadmn, instead of getting the last numeric value from kname from regex pattern
       command = "udevadm"
       params = " info  --query=property --name=#{partition_path}"
-      udevadm = DiskCommand.new command, params
-      udevadm.execute false, false # None blocking and not debug mode
+      udevadm = CommandsExecutor.new command, params
+      udevadm.execute
       raise "Command execution error: #{udevadm.stderr.read}" if not udevadm.success?
       udevadm.result.each_line do |line|
         line.squish!
@@ -390,7 +340,23 @@ class Diskwz
         _key, value = line.split '='
         return value.to_i if _key.eql? key
       end
+      raise "Can't find partition number for #{partition_path} partition"
     end
+
+    #Quick `open3` wrapper for check availability of a system command, shows the full path of (shell) commands.Wrapper for linux 'which' command
+    def which command
+      require 'open3'
+      Open3.popen3("which #{command}") do |stdin, stdout, stderr, wait_thr|
+        if wait_thr.value.to_i == 0
+          availability = true
+        else
+          availability = false
+        end
+        return availability
+      end
+    end
+
+
     private
 
     def get_kname device
@@ -405,7 +371,7 @@ class Diskwz
     def create_directory location
       command = "mkdir"
       params = "-p -m 757 #{location}"
-      mkdir = DiskCommand.new command, params
+      mkdir = CommandsExecutor.new command, params
       mkdir.execute
       raise "Command execution error: #{mkdir.stderr.read}" if not mkdir.success?
     end
@@ -421,7 +387,7 @@ class Diskwz
         else
           params = " #{action} #{systemd_name}"
       end
-      systemctl = DiskCommand.new command, params
+      systemctl = CommandsExecutor.new command, params
       systemctl.execute
       raise "Command execution error: #{systemctl.stderr.read}" if not systemctl.success?
       if action == 'show'
